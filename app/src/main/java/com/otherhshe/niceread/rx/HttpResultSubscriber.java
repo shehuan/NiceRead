@@ -1,5 +1,7 @@
 package com.otherhshe.niceread.rx;
 
+import android.widget.Toast;
+
 import rx.Subscriber;
 
 /**
@@ -20,5 +22,10 @@ public class HttpResultSubscriber<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }
