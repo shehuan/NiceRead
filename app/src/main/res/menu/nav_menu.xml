@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_gank"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="@string/nav_item_title1" />
+        <item
+            android:id="@+id/nav_girl"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/nav_item_title2" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/nav_item_title3" />
+    </group>
+
+    <item android:title="其它">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@android:drawable/ic_menu_crop"
+                android:title="@string/nav_item_title4" />
+            <item
+                android:id="@+id/nav_set"
+                android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/nav_item_title5" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@android:drawable/ic_menu_help"
+                android:title="@string/nav_item_title4" />
+        </menu>
+    </item>
+
+</menu>

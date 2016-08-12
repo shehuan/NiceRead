@@ -5,7 +5,5 @@ package com.otherhshe.niceread.ui.view;
  * Time:  2016/8/11 11:24
  */
 public interface IBaseView {
-    void loadStart();
-    void loadError();
-    void loadComplete();
+    void onError();
 }

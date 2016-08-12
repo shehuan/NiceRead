@@ -55,17 +55,7 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
     }
 
     @Override
-    public void loadStart() {
-
-    }
-
-    @Override
-    public void loadError() {
-
-    }
-
-    @Override
-    public void loadComplete() {
+    public void onError() {
 
     }
 }

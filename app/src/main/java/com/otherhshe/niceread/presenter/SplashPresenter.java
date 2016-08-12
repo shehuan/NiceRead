@@ -3,9 +3,8 @@ package com.otherhshe.niceread.presenter;
 import com.otherhshe.niceread.data.SplashData;
 import com.otherhshe.niceread.model.impl.SplashModelImpl;
 import com.otherhshe.niceread.rx.RxManager;
+import com.otherhshe.niceread.rx.RxSubscriber;
 import com.otherhshe.niceread.ui.view.SplashView;
-
-import rx.Subscriber;
 
 /**
  * Author: Othershe
@@ -19,20 +18,15 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     }
 
     public void getSplashPic() {
-        mSubscription = RxManager.getInstance().doSubscribe(mModel.getSplashPic(), new Subscriber<SplashData>() {
+        mSubscription = RxManager.getInstance().doSubscribe(mModel.getSplashPic(), new RxSubscriber<SplashData>(false) {
             @Override
-            public void onCompleted() {
-                mView.loadComplete();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mView.loadError();
-            }
-
-            @Override
-            public void onNext(SplashData data) {
+            protected void _onNext(SplashData data) {
                 mView.onSuccess(data);
+            }
+
+            @Override
+            protected void _onError() {
+                mView.onError();
             }
         });
     }

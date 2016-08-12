@@ -5,8 +5,8 @@ package com.otherhshe.niceread.data;
  * Time:  2016/8/11 13:34
  */
 public class HttpResult<T> {
-    public boolean error;
-    public T results;
+    private boolean error;
+    private T results;
 
     public boolean isError() {
         return error;

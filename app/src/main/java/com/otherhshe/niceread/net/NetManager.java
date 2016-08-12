@@ -38,6 +38,13 @@ public class NetManager {
         return retrofit.create(service);
     }
 
+    /**
+     * 解析接口中的BASE_URL，解决BASE_URL不一致的问题
+     *
+     * @param service
+     * @param <S>
+     * @return
+     */
     private <S> String getBaseUrl(Class<S> service) {
 
         try {
@@ -50,11 +57,13 @@ public class NetManager {
     }
 
     private OkHttpClient getOkHttpClient() {
+        //配置超时拦截器
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         builder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
+        //配置log打印拦截器
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addInterceptor(loggingInterceptor);

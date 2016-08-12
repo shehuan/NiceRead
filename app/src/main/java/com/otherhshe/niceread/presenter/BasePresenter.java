@@ -9,7 +9,7 @@ import rx.Subscription;
  */
 public class BasePresenter<V> {
     public V mView;
-    public Subscription mSubscription;
+    protected Subscription mSubscription;
 
     public void attach(V view) {
         mView = view;
@@ -17,6 +17,8 @@ public class BasePresenter<V> {
 
     public void detach() {
         mView = null;
-        mSubscription.unsubscribe();
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
     }
 }

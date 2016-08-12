@@ -26,10 +26,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(initLayoutId());
 
-        initView();
-
         mContext = this;
         mUnbinder = ButterKnife.bind(this);
+
+        initView();
     }
 
     @Override

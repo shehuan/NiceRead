@@ -1,3 +1,16 @@
 <resources>
+    <string name="navigation_drawer_open" translatable="false">open drawer</string>
+    <string name="navigation_drawer_close" translatable="false">close drawer</string>
+
     <string name="app_name">NiceRead</string>
+
+    <string name="nav_item_title1">干货</string>
+    <string name="nav_item_title2">妹纸</string>
+    <string name="nav_item_title3">视频</string>
+    <string name="nav_item_title4">分享</string>
+    <string name="nav_item_title5">设置</string>
+    <string name="nav_item_title6">关于</string>
+
+    <string name="main_menu_search">搜索</string>
+    <string name="back_pressed_tip">再按就要说再见了</string>
 </resources>
