@@ -15,12 +15,12 @@ import java.util.List;
 public class GankItemPresenter extends BasePresenter<GankItemView> {
     private GankItemModelImpl mModel;
 
-    public GankItemPresenter(String suburl) {
-        mModel = new GankItemModelImpl(suburl);
+    public GankItemPresenter() {
+        mModel = new GankItemModelImpl();
     }
 
-    public void getGankItemData() {
-        mSubscription = RxManager.getInstance().doSubscribe1(mModel.getGankItemData(), new RxSubscriber<List<GankItemData>>(true) {
+    public void getGankItemData(String suburl) {
+        mSubscription = RxManager.getInstance().doSubscribe1(mModel.getGankItemData(suburl), new RxSubscriber<List<GankItemData>>(true) {
             @Override
             protected void _onNext(List<GankItemData> gankItemData) {
                 mView.onSuccess(gankItemData);

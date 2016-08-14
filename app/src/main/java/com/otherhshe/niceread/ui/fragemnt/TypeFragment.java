@@ -43,6 +43,7 @@ public class TypeFragment extends BaseFragment {
         mTypeAdapter = new TypePageAdapter(getChildFragmentManager());
         mTypeAdapter.setData(mFragments, mTitles);
         mViewPager.setAdapter(mTypeAdapter);
+        mViewPager.setOffscreenPageLimit(mTitles.size() - 1);
         if (ResourceUtil.resToStr(mActivity, R.string.nav_item_title1).equals(mType)) {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }

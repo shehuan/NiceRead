@@ -15,15 +15,10 @@ import rx.Observable;
  * Time: 2016/8/12 14:30
  */
 public class GankItemModelImpl implements IGankItemModel {
-    private String mSuburl;
-
-    public GankItemModelImpl(String suburl) {
-        mSuburl = suburl;
-    }
 
     @Override
-    public Observable<HttpResult<List<GankItemData>>> getGankItemData() {
+    public Observable<HttpResult<List<GankItemData>>> getGankItemData(String suburl) {
         GankItemService service = NetManager.getInstance().create(GankItemService.class);
-        return service.getGankItemData(mSuburl);
+        return service.getGankItemData(suburl);
     }
 }

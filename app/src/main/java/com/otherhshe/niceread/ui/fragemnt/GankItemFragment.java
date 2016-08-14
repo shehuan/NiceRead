@@ -1,14 +1,20 @@
 package com.otherhshe.niceread.ui.fragemnt;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
+import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
 import com.otherhshe.niceread.ui.view.GankItemView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -17,24 +23,30 @@ import butterknife.BindView;
  * Author: Othershe
  * Time: 2016/8/12 14:28
  */
-public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPresenter> implements GankItemView {
+public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPresenter> implements GankItemView,
+        BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String SUB_TYPE = "subtype";
 
     private String mSubtype;
+    private int mPageCount = 0;
+
+    private GankItemAdapter mGankItemAdapter;
 
     @BindView(R.id.type_item_recyclerView)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.type_item_swiprefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     protected GankItemPresenter initPresenter() {
-        return new GankItemPresenter("data/Android/10/1");
+        return new GankItemPresenter();
     }
 
     @Override
     protected void fetchData() {
-        mPresenter.getGankItemData();
-        Log.e("type", mSubtype);
+        mPresenter.getGankItemData("data/" + mSubtype + "/10/" + (++mPageCount));
     }
 
     @Override
@@ -44,8 +56,20 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     @Override
     protected void initView() {
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        onRefresh();
 
-    }
+        mGankItemAdapter = new GankItemAdapter(R.layout.item_gank_layout, new ArrayList<GankItemData>());
+        mGankItemAdapter.setOnRecyclerViewItemClickListener(this);
+        mGankItemAdapter.openLoadMore(10, true);
+        mGankItemAdapter.setOnLoadMoreListener(this);
+        mRecyclerView.setAdapter(mGankItemAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+}
 
     @Override
     protected void initData() {
@@ -57,7 +81,11 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     @Override
     public void onSuccess(List<GankItemData> data) {
-
+        if (mPageCount > 1){
+            mGankItemAdapter.notifyDataChangedAfterLoadMore(data, true);
+        }else{
+            mGankItemAdapter.setNewData(data);
+        }
     }
 
     @Override
@@ -71,5 +99,20 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
         arguments.putString(SUB_TYPE, subtype);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onItemClick(View view, int i) {
+
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        fetchData();
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }

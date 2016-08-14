@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="gank">
-        <item>All</item>
+        <item>all</item>
         <item>Android</item>
-        <item>IOS</item>
+        <item>iOS</item>
         <item>前端</item>
         <item>瞎推荐</item>
         <item>拓展资源</item>
