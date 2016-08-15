@@ -32,19 +32,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/man" />
 
             <TextView
                 android:id="@+id/gank_item_who"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="12sp"
                 android:text="daimajia" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/time" />
 
             <TextView
                 android:id="@+id/gank_item_publishedat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="2016" />
 
         </LinearLayout>

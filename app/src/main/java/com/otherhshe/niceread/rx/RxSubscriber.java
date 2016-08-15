@@ -4,7 +4,10 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.otherhshe.niceread.NiceReadApplication;
+import com.otherhshe.niceread.R;
+import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -32,7 +35,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         //统一处理请求异常的情况
-        if (e instanceof SocketTimeoutException || e instanceof ConnectException || e instanceof UnknownHostException) {
+        if (e instanceof IOException) {
             Toast.makeText(mContext, "网络链接异常...", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -53,6 +56,9 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         showLoading();
     }
 
+    /**
+     * 可在此处统一显示loading view
+     */
     private void showLoading() {
         if (mIsShowLoading) {
 

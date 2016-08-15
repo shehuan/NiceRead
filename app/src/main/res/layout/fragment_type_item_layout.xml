@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/type_item_swiprefreshlayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,4 +10,4 @@
         android:overScrollMode="never"
         android:scrollbars="none" />
 
-</android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

@@ -13,4 +13,5 @@
 
     <string name="main_menu_search">搜索</string>
     <string name="back_pressed_tip">再按就要说再见了</string>
+    <string name="load_tip">努力加载中</string>
 </resources>

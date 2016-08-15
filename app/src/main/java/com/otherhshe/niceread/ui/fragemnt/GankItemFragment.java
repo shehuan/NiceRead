@@ -6,7 +6,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.otherhshe.niceread.R;
@@ -38,9 +40,6 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     @BindView(R.id.type_item_recyclerView)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.type_item_swiprefreshlayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-
     @Override
     protected GankItemPresenter initPresenter() {
         return new GankItemPresenter();
@@ -58,20 +57,23 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     @Override
     protected void initView() {
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        //实现首次自动显示加载提示
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
+//        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        //实现首次自动显示加载提示
+//        mSwipeRefreshLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSwipeRefreshLayout.setRefreshing(true);
+//            }
+//        });
 
         mGankItemAdapter = new GankItemAdapter(R.layout.item_gank_layout, new ArrayList<GankItemData>());
         mGankItemAdapter.setOnRecyclerViewItemClickListener(this);
         mGankItemAdapter.openLoadMore(10, true);
         mGankItemAdapter.setOnLoadMoreListener(this);
+
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.load_failed_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        mGankItemAdapter.setEmptyView(view);
         mRecyclerView.setAdapter(mGankItemAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -92,7 +94,6 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
         if (mPageCount > 1) {
             mGankItemAdapter.notifyDataChangedAfterLoadMore(data, true);
         } else {
-            mSwipeRefreshLayout.setRefreshing(false);
             mGankItemAdapter.setNewData(data);
         }
     }
