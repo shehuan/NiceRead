@@ -4,10 +4,10 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.otherhshe.niceread.NiceReadApplication;
-import com.otherhshe.niceread.utils.NetUtil;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import rx.Subscriber;
 
@@ -32,7 +32,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         //统一处理请求异常的情况
-        if (NetUtil.isConnected(mContext) || e instanceof SocketTimeoutException || e instanceof ConnectException) {
+        if (e instanceof SocketTimeoutException || e instanceof ConnectException || e instanceof UnknownHostException) {
             Toast.makeText(mContext, "网络链接异常...", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();

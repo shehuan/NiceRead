@@ -56,6 +56,6 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
 
     @Override
     public void onError() {
-
+        finish();
     }
 }

@@ -1,10 +1,13 @@
 package com.otherhshe.niceread.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Author: Othershe
  * Time: 2016/8/12 14:34
  */
-public class GankItemData {
+public class GankItemData implements Parcelable {
 
     /**
      * _id : 57aca861421aa949ef961f48
@@ -99,4 +102,49 @@ public class GankItemData {
     public void setWho(String who) {
         this.who = who;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this._id);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.desc);
+        dest.writeString(this.publishedAt);
+        dest.writeString(this.source);
+        dest.writeString(this.type);
+        dest.writeString(this.url);
+        dest.writeByte(this.used ? (byte) 1 : (byte) 0);
+        dest.writeString(this.who);
+    }
+
+    public GankItemData() {
+    }
+
+    protected GankItemData(Parcel in) {
+        this._id = in.readString();
+        this.createdAt = in.readString();
+        this.desc = in.readString();
+        this.publishedAt = in.readString();
+        this.source = in.readString();
+        this.type = in.readString();
+        this.url = in.readString();
+        this.used = in.readByte() != 0;
+        this.who = in.readString();
+    }
+
+    public static final Parcelable.Creator<GankItemData> CREATOR = new Parcelable.Creator<GankItemData>() {
+        @Override
+        public GankItemData createFromParcel(Parcel source) {
+            return new GankItemData(source);
+        }
+
+        @Override
+        public GankItemData[] newArray(int size) {
+            return new GankItemData[size];
+        }
+    };
 }

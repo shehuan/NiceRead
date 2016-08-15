@@ -1,5 +1,6 @@
 package com.otherhshe.niceread.ui.fragemnt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
+import com.otherhshe.niceread.ui.activity.GankItemDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
 import com.otherhshe.niceread.ui.view.GankItemView;
 
@@ -56,9 +58,15 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     @Override
     protected void initView() {
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorAccent);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        onRefresh();
+        //实现首次自动显示加载提示
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
 
         mGankItemAdapter = new GankItemAdapter(R.layout.item_gank_layout, new ArrayList<GankItemData>());
         mGankItemAdapter.setOnRecyclerViewItemClickListener(this);
@@ -69,7 +77,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-}
+    }
 
     @Override
     protected void initData() {
@@ -81,9 +89,10 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     @Override
     public void onSuccess(List<GankItemData> data) {
-        if (mPageCount > 1){
+        if (mPageCount > 1) {
             mGankItemAdapter.notifyDataChangedAfterLoadMore(data, true);
-        }else{
+        } else {
+            mSwipeRefreshLayout.setRefreshing(false);
             mGankItemAdapter.setNewData(data);
         }
     }
@@ -103,7 +112,10 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     @Override
     public void onItemClick(View view, int i) {
-
+        GankItemData data = mGankItemAdapter.getItem(i);
+        Intent intent = new Intent(mActivity, GankItemDetailActivity.class);
+        intent.putExtra("gank_item_data", data);
+        startActivity(intent);
     }
 
     @Override
