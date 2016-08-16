@@ -1,6 +1,9 @@
 package com.otherhshe.niceread.ui.activity;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -10,7 +13,13 @@ import android.widget.ProgressBar;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
+import com.otherhshe.niceread.utils.CopyUtil;
+import com.otherhshe.niceread.utils.ResourceUtil;
+import com.otherhshe.niceread.utils.ShareUtil;
+import com.otherhshe.niceread.utils.SnackBarUtil;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 
@@ -97,5 +106,50 @@ public class GankItemDetailActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.gank_detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_share:
+                ShareUtil.share(mContext, mGankItemData.getUrl());
+                break;
+            case R.id.menu_copy:
+                CopyUtil.copy(mContext, mGankItemData.getUrl());
+                SnackBarUtil.showSnack(mWebView, R.string.copy_success);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * menu隐藏后显示icon
+     *
+     * @param view
+     * @param menu
+     * @return
+     */
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        return super.onPrepareOptionsPanel(view, menu);
     }
 }

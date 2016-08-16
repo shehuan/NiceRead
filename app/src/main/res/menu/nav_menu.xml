@@ -6,16 +6,16 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gank"
-            android:icon="@android:drawable/ic_menu_compass"
-            android:title="@string/nav_item_title1" />
+            android:icon="@drawable/cross"
+            android:title="@string/gank" />
         <item
             android:id="@+id/nav_girl"
-            android:icon="@android:drawable/ic_menu_add"
-            android:title="@string/nav_item_title2" />
+            android:icon="@drawable/girl"
+            android:title="@string/girl" />
         <item
             android:id="@+id/nav_video"
-            android:icon="@android:drawable/ic_menu_add"
-            android:title="@string/nav_item_title3" />
+            android:icon="@drawable/video"
+            android:title="@string/video" />
     </group>
 
     <group
@@ -23,16 +23,16 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_share"
-            android:icon="@android:drawable/ic_menu_crop"
-            android:title="@string/nav_item_title4" />
+            android:icon="@drawable/share"
+            android:title="@string/share" />
         <item
             android:id="@+id/nav_set"
-            android:icon="@android:drawable/ic_menu_share"
-            android:title="@string/nav_item_title5" />
+            android:icon="@drawable/setting"
+            android:title="@string/setting" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@android:drawable/ic_menu_help"
-            android:title="@string/nav_item_title6" />
+            android:icon="@drawable/about"
+            android:title="@string/about" />
     </group>
 
 </menu>

@@ -4,14 +4,19 @@
 
     <string name="app_name">NiceRead</string>
 
-    <string name="nav_item_title1">干货</string>
-    <string name="nav_item_title2">妹纸</string>
-    <string name="nav_item_title3">视频</string>
-    <string name="nav_item_title4">分享</string>
-    <string name="nav_item_title5">设置</string>
-    <string name="nav_item_title6">关于</string>
+    <string name="gank">干货</string>
+    <string name="girl">妹纸</string>
+    <string name="video">视频</string>
+    <string name="share">分享</string>
+    <string name="setting">设置</string>
+    <string name="about">关于</string>
+    <string name="copy">复制链接</string>
 
     <string name="main_menu_search">搜索</string>
     <string name="back_pressed_tip">再按就要说再见了</string>
-    <string name="load_tip">努力加载中</string>
+    <string name="load_start_tip">努力加载中...</string>
+    <string name="load_failed_tip">点我再试试？</string>
+
+    <string name="share_to">分享到</string>
+    <string name="copy_success">复制链接成功</string>
 </resources>

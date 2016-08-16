@@ -2,10 +2,10 @@ package com.otherhshe.niceread.ui.fragemnt;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Author: Othershe
@@ -34,11 +35,20 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
     private String mSubtype;
     private int mPageCount = 0;
+    private int mLastVisibleItemPosition;
 
     private GankItemAdapter mGankItemAdapter;
 
     @BindView(R.id.type_item_recyclerView)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.type_item_fab)
+    FloatingActionButton mFab;
+
+    @OnClick(R.id.type_item_fab)
+    void onClick() {
+        mRecyclerView.smoothScrollToPosition(0);
+    }
 
     @Override
     protected GankItemPresenter initPresenter() {
@@ -72,13 +82,37 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
         mGankItemAdapter.openLoadMore(10, true);
         mGankItemAdapter.setOnLoadMoreListener(this);
 
-        View view = LayoutInflater.from(mActivity).inflate(R.layout.load_failed_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.load_start_layout, (ViewGroup) mRecyclerView.getParent(), false);
         mGankItemAdapter.setEmptyView(view);
         mRecyclerView.setAdapter(mGankItemAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
+
+        //RecyclerView滚动位置
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (mLastVisibleItemPosition < manager.findLastVisibleItemPosition() && mLastVisibleItemPosition == 12) {
+                    mFab.show();
+                }
+
+                if (mLastVisibleItemPosition > manager.findLastVisibleItemPosition() && mFab.isShown()) {
+                    mFab.hide();
+                }
+
+                mLastVisibleItemPosition = manager.findLastVisibleItemPosition();
+            }
+        });
     }
 
     @Override

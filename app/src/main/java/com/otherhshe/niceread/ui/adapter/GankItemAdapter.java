@@ -26,5 +26,9 @@ public class GankItemAdapter extends BaseQuickAdapter<GankItemData> {
         holder.setText(R.id.gank_item_who, who);
 
         holder.setText(R.id.gank_item_publishedat, gankItemData.getPublishedAt().substring(0, 10));
+
+        if (gankItemData.getUrl().contains("github")) {
+            holder.setBackgroundRes(R.id.gank_item_icon, R.drawable.github);
+        }
     }
 }

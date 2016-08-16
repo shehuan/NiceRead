@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="gray">#44000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <color name="nav_item_icon">#1abc9c</color>
 </resources>

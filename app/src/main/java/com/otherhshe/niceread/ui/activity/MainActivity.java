@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
         initDrawer();
         initNavigationView();
 
-        doReplace(ResourceUtil.resToStr(mContext, R.string.nav_item_title1));
+        doReplace(ResourceUtil.resToStr(mContext, R.string.gank));
     }
 
     @Override
@@ -85,13 +85,13 @@ public class MainActivity extends BaseActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_gank:
-                        doReplace(ResourceUtil.resToStr(mContext, R.string.nav_item_title1));
+                        doReplace(ResourceUtil.resToStr(mContext, R.string.gank));
                         break;
                     case R.id.nav_girl:
-                        doReplace(ResourceUtil.resToStr(mContext, R.string.nav_item_title2));
+                        doReplace(ResourceUtil.resToStr(mContext, R.string.girl));
                         break;
                     case R.id.nav_video:
-                        doReplace(ResourceUtil.resToStr(mContext, R.string.nav_item_title3));
+                        doReplace(ResourceUtil.resToStr(mContext, R.string.video));
                         break;
                     case R.id.nav_share:
                         break;
