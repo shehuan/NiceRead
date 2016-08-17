@@ -17,7 +17,7 @@ public class ResourceUtil {
      * @param arrayId
      * @return
      */
-    public static List<String> arrayToList(Context context, int arrayId) {
+    public static List<String> stringArrayToList(Context context, int arrayId) {
         return Arrays.asList(context.getResources().getStringArray(arrayId));
     }
 

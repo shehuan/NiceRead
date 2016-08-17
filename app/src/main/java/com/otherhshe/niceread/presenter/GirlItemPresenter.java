@@ -17,7 +17,7 @@ public class GirlItemPresenter extends BasePresenter<GirlItemView> {
         mModel = new GirlItemModelImpl();
     }
 
-    public void getGirlItemData(int cid, int page) {
+    public void getGirlItemData(String cid, int page) {
         mSubscription = RxManager.getInstance().doSubscribe(mModel.getGirlItemData(cid, page), new RxSubscriber<String>(false) {
             @Override
             protected void _onNext(String s) {

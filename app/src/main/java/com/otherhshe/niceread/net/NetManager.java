@@ -15,7 +15,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * Time:  2016/8/11 14:30
  */
 public class NetManager {
-    private static final int DEFAULT_TIMEOUT = 5;
+    private static final int DEFAULT_TIMEOUT = 10;
 
     public static NetManager getInstance() {
         return SingletonHolder.INSTANCE;

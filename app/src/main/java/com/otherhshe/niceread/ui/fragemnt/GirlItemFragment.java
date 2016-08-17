@@ -28,7 +28,6 @@ import butterknife.BindView;
 public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPresenter> implements GirlItemView,
         BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
     private String mSubtype;
-    private int mCid;
     private int mPageCount = 1;
 
     private GirlItemAdapter mGirlItemAdapter;
@@ -43,7 +42,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
     @Override
     protected void fetchData() {
-        mPresenter.getGirlItemData(mCid, mPageCount);
+        mPresenter.getGirlItemData(mSubtype, mPageCount);
     }
 
     @Override
@@ -72,10 +71,6 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
             return;
         }
         mSubtype = getArguments().getString(SUB_TYPE);
-        switch (mSubtype) {
-
-        }
-        mCid = 2;
     }
 
     @Override

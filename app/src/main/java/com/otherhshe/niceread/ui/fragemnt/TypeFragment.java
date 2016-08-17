@@ -77,14 +77,15 @@ public class TypeFragment extends BaseFragment {
         mType = getArguments().getString(TYPE);
 
         if (ResourceUtil.resToStr(mActivity, R.string.gank).equals(mType)) {
-            mTitles = ResourceUtil.arrayToList(mActivity, R.array.gank);
+            mTitles = ResourceUtil.stringArrayToList(mActivity, R.array.gank);
             for (String title : mTitles) {
                 mFragments.add(GankItemFragment.newInstance(title));
             }
         } else if (ResourceUtil.resToStr(mActivity, R.string.girl).equals(mType)) {
-            mTitles = ResourceUtil.arrayToList(mActivity, R.array.girl);
-            for (String title : mTitles) {
-                mFragments.add(GirlItemFragment.newInstance(title));
+            mTitles = ResourceUtil.stringArrayToList(mActivity, R.array.girl);
+            List<String> subtypes = ResourceUtil.stringArrayToList(mActivity, R.array.girl_cid);
+            for (String subtype : subtypes) {
+                mFragments.add(GirlItemFragment.newInstance(subtype));
             }
         }
 

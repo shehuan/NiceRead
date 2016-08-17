@@ -17,4 +17,13 @@
         <item>有颜值</item>
         <item>大杂烩</item>
     </string-array>
+
+    <string-array name="girl_cid">
+        <item>2</item>
+        <item>6</item>
+        <item>7</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

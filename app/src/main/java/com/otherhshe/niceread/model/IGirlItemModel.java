@@ -7,5 +7,5 @@ import rx.Observable;
  * Time: 2016/8/12 14:30
  */
 public interface IGirlItemModel {
-    Observable<String> getGirlItemData(int cid, int page);
+    Observable<String> getGirlItemData(String cid, int page);
 }

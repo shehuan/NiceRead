@@ -12,7 +12,7 @@ import rx.Observable;
  */
 public class GirlItemModelImpl implements IGirlItemModel {
     @Override
-    public Observable<String> getGirlItemData(int cid, int page) {
+    public Observable<String> getGirlItemData(String cid, int page) {
         GirlItemService service = NetManager.getInstance().create1(GirlItemService.class);
         return service.getGirlItemData(cid, page);
     }

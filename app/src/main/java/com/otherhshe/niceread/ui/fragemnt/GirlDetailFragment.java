@@ -38,7 +38,6 @@ public class GirlDetailFragment extends BaseFragment {
         if (getArguments() == null) {
             return;
         }
-
         mUrl = getArguments().getString(URL);
     }
 

@@ -14,5 +14,5 @@ public interface GirlItemService {
     String BASE_URL = Api.URL_GET_GIRL;
 
     @GET("show.htm")
-    Observable<String> getGirlItemData(@Query("cid") int cid, @Query("pager_offset") int pager_offset);
+    Observable<String> getGirlItemData(@Query("cid") String cid, @Query("pager_offset") int pager_offset);
 }
