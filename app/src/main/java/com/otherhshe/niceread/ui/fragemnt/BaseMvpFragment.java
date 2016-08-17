@@ -9,6 +9,8 @@ import com.otherhshe.niceread.presenter.BasePresenter;
  * Time: 2016/8/12 12:19
  */
 public abstract class BaseMvpFragment<V, P extends BasePresenter<V>> extends BaseFragment {
+    protected static final String SUB_TYPE = "subtype";
+
     protected P mPresenter;
 
     protected abstract P initPresenter();

@@ -44,7 +44,7 @@ public class TypeFragment extends BaseFragment {
         mTypeAdapter.setData(mFragments, mTitles);
         mViewPager.setAdapter(mTypeAdapter);
         mViewPager.setOffscreenPageLimit(mTitles.size() - 1);
-        if (ResourceUtil.resToStr(mActivity, R.string.gank).equals(mType)) {
+        if (ResourceUtil.resToStr(mActivity, R.string.gank).equals(mType) || ResourceUtil.resToStr(mActivity, R.string.girl).equals(mType)) {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }
         mTabLayout.setupWithViewPager(mViewPager);
@@ -80,6 +80,11 @@ public class TypeFragment extends BaseFragment {
             mTitles = ResourceUtil.arrayToList(mActivity, R.array.gank);
             for (String title : mTitles) {
                 mFragments.add(GankItemFragment.newInstance(title));
+            }
+        } else if (ResourceUtil.resToStr(mActivity, R.string.girl).equals(mType)) {
+            mTitles = ResourceUtil.arrayToList(mActivity, R.array.girl);
+            for (String title : mTitles) {
+                mFragments.add(GirlItemFragment.newInstance(title));
             }
         }
 

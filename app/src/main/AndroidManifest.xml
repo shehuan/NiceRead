@@ -23,7 +23,8 @@
 
         <activity android:name=".ui.activity.MainActivity" />
 
-        <activity android:name=".ui.activity.GankItemDetailActivity" />
+        <activity android:name=".ui.activity.GankDetailActivity" />
+        <activity android:name=".ui.activity.GirlDetailActivity" />
     </application>
 
 </manifest>

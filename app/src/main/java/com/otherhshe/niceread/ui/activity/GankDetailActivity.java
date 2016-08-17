@@ -1,6 +1,5 @@
 package com.otherhshe.niceread.ui.activity;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +13,6 @@ import android.widget.ProgressBar;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.utils.CopyUtil;
-import com.otherhshe.niceread.utils.ResourceUtil;
 import com.otherhshe.niceread.utils.ShareUtil;
 import com.otherhshe.niceread.utils.SnackBarUtil;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -27,33 +25,35 @@ import butterknife.BindView;
  * Author: Othershe
  * Time: 2016/8/15 11:14
  */
-public class GankItemDetailActivity extends BaseActivity {
+public class GankDetailActivity extends BaseActivity {
     private GankItemData mGankItemData;
 
-    @BindView(R.id.gank_item_detail_toolbar)
-    Toolbar mToolBar;
+    @BindView(R.id.gank_detail_toolbar)
+    Toolbar mToolbar;
 
-    @BindView(R.id.gank_item_detail_webview)
+    @BindView(R.id.gank_detail_webview)
     WebView mWebView;
 
-    @BindView(R.id.gank_item_detail_loading)
+    @BindView(R.id.gank_detail_loading)
     AVLoadingIndicatorView mLoading;
 
-    @BindView(R.id.gank_item_detail_progress)
+    @BindView(R.id.gank_detail_progress)
     ProgressBar mProgressBar;
 
     @Override
     protected int initLayoutId() {
-        return R.layout.activity_gank_item_detail;
+        return R.layout.activity_gank_detail;
     }
 
     @Override
     protected void initView() {
-
-        mGankItemData = getIntent().getParcelableExtra("gank_item_data");
-
         initToolbar();
         initWebView();
+    }
+
+    @Override
+    protected void initData() {
+        mGankItemData = getIntent().getParcelableExtra("gank_item_data");
     }
 
     private void initWebView() {
@@ -73,14 +73,6 @@ public class GankItemDetailActivity extends BaseActivity {
                     mProgressBar.setVisibility(View.GONE);
                 }
             }
-
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                String desc = mGankItemData.getDesc();
-                desc = desc.length() > 10 ? desc.substring(0, 10) + "..." : desc;
-                mToolBar.setTitle(desc);
-            }
         });
 
         mWebView.setWebViewClient(new WebViewClient() {
@@ -95,12 +87,17 @@ public class GankItemDetailActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        setSupportActionBar(mToolBar);
+        String desc = mGankItemData.getDesc();
+        desc = desc.length() > 10 ? desc.substring(0, 10) + "..." : desc;
+        mToolbar.setTitle(desc);
+
+        setSupportActionBar(mToolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

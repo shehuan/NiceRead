@@ -20,6 +20,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initView();
 
+    protected abstract void initData();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initLayoutId();
@@ -28,6 +30,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mContext = this;
         mUnbinder = ButterKnife.bind(this);
+
+        initData();
 
         initView();
     }

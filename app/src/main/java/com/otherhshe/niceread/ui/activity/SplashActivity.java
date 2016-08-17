@@ -26,7 +26,7 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
     }
 
     @Override
-    protected void initData() {
+    protected void fetchData() {
         mPresenter.getSplashPic();
     }
 
@@ -37,6 +37,11 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
 
     @Override
     protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
 
     }
 

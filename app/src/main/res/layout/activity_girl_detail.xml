@@ -12,35 +12,18 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/gank_item_detail_toolbar"
+            android:id="@+id/girl_detail_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/load_start_tip" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <ProgressBar
-        android:id="@+id/gank_item_detail_progress"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/app_bar" />
-
-    <WebView
-        android:id="@+id/gank_item_detail_webview"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/girl_detail_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/gank_item_detail_progress" />
-
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/gank_item_detail_loading"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        app:indicatorColor="@color/colorAccent"
-        app:indicatorName="BallSpinFadeLoaderIndicator" />
+        android:layout_below="@id/app_bar" />
 
 </RelativeLayout>

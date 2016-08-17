@@ -3,7 +3,6 @@ package com.otherhshe.niceread.ui.fragemnt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
-import com.otherhshe.niceread.ui.activity.GankItemDetailActivity;
+import com.otherhshe.niceread.ui.activity.GankDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
 import com.otherhshe.niceread.ui.view.GankItemView;
 
@@ -29,9 +28,7 @@ import butterknife.OnClick;
  * Time: 2016/8/12 14:28
  */
 public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPresenter> implements GankItemView,
-        BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
-
-    private static final String SUB_TYPE = "subtype";
+        BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.RequestLoadMoreListener{
 
     private String mSubtype;
     private int mPageCount = 0;
@@ -148,7 +145,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     @Override
     public void onItemClick(View view, int i) {
         GankItemData data = mGankItemAdapter.getItem(i);
-        Intent intent = new Intent(mActivity, GankItemDetailActivity.class);
+        Intent intent = new Intent(mActivity, GankDetailActivity.class);
         intent.putExtra("gank_item_data", data);
         startActivity(intent);
     }
@@ -156,10 +153,5 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     @Override
     public void onLoadMoreRequested() {
         fetchData();
-    }
-
-    @Override
-    public void onRefresh() {
-
     }
 }

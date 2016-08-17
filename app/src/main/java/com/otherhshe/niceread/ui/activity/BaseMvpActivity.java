@@ -14,7 +14,7 @@ public abstract class BaseMvpActivity<V, P extends BasePresenter<V>> extends Bas
 
     protected abstract P initPresenter();
 
-    protected abstract void initData();
+    protected abstract void fetchData();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public abstract class BaseMvpActivity<V, P extends BasePresenter<V>> extends Bas
         mPresenter = initPresenter();
         mPresenter.attach((V) this);
 
-        initData();
+        fetchData();
     }
 
     @Override
