@@ -56,10 +56,10 @@ public class GirlDetailActivity extends BaseMvpActivity<GirlDetailView, GirlDeta
     }
 
     @Override
-    public void onSuccess(List<GirlItemData> data) {
+    public void onSuccess(List<String> data) {
         List<BaseFragment> fragments = new ArrayList<>();
-        for (GirlItemData itemData : data) {
-            fragments.add(GirlDetailFragment.newInstance(itemData.getUrl()));
+        for (String url : data) {
+            fragments.add(GirlDetailFragment.newInstance(url));
         }
 
         GirlDetailAdapter adapter = new GirlDetailAdapter(getSupportFragmentManager());

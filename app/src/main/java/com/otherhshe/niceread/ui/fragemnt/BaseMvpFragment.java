@@ -38,7 +38,7 @@ public abstract class BaseMvpFragment<V, P extends BasePresenter<V>> extends Bas
         initFetchData();
     }
 
-    private void initFetchData() {
+    protected void initFetchData() {
         if (mIsVisibleToUser && mIsViewInitiated && !mIsDataInitiated) {
             fetchData();
             mIsDataInitiated = true;

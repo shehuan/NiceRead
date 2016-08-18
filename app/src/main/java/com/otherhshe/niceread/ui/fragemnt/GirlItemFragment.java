@@ -32,7 +32,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
     private GirlItemAdapter mGirlItemAdapter;
 
-    @BindView(R.id.type_item_recyclerView)
+    @BindView(R.id.type_item_recyclerview)
     RecyclerView mRecyclerView;
 
     @Override
@@ -62,6 +62,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
         mRecyclerView.setAdapter(mGirlItemAdapter);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//据说可防止Item切换
         mRecyclerView.setLayoutManager(layoutManager);
     }
 

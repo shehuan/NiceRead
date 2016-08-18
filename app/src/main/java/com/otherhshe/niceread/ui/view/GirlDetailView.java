@@ -1,7 +1,5 @@
 package com.otherhshe.niceread.ui.view;
 
-import com.otherhshe.niceread.data.GirlItemData;
-
 import java.util.List;
 
 /**
@@ -9,5 +7,5 @@ import java.util.List;
  * Time: 2016/8/17 16:51
  */
 public interface GirlDetailView extends IBaseView {
-    void onSuccess(List<GirlItemData> data);
+    void onSuccess(List<String> data);
 }

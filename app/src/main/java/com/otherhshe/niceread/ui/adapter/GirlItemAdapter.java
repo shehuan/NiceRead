@@ -24,7 +24,9 @@ public class GirlItemAdapter extends BaseQuickAdapter<GirlItemData> {
 
     @Override
     protected void convert(BaseViewHolder holder, GirlItemData girlItemData) {
+        ImageView imageView = holder.getView(R.id.girl_item_iv);
+//        imageView.setInitSize(girlItemData.getWidth(), girlItemData.getHeight());
         ImageLoader.load(NiceReadApplication.getContext(),
-                girlItemData.getUrl(), (ImageView) holder.getView(R.id.girl_item_iv));
+                girlItemData.getUrl(), imageView);
     }
 }

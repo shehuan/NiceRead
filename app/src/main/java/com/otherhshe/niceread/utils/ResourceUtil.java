@@ -1,6 +1,9 @@
 package com.otherhshe.niceread.utils;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,5 +26,9 @@ public class ResourceUtil {
 
     public static String resToStr(Context context, int strId) {
         return context.getString(strId);
+    }
+
+    public static View inflate(Context context, int viewId, ViewGroup root) {
+        return LayoutInflater.from(context).inflate(viewId, root, false);
     }
 }

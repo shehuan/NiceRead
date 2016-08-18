@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class JsoupUtil {
     /**
-     * 解析每一页的数据
+     * 解析每一页妹子的数据
      *
      * @param response
      * @return
@@ -38,20 +38,17 @@ public class JsoupUtil {
     }
 
     /**
-     * 解析每页上某个数据的详情
+     * 解析妹子数据的详情
      *
      * @param response
      * @return
      */
-    public static List<GirlItemData> parseGirlDetail(String response) {
+    public static List<String> parseGirlDetail(String response) {
         Document document = Jsoup.parse(response);
         Elements elements = document.select("div[class = topic-figure cc] > img");
-        List<GirlItemData> list = new ArrayList<>();
-        GirlItemData data;
+        List<String> list = new ArrayList<>();
         for (Element element : elements) {
-            data = new GirlItemData();
-            data.setUrl(element.select("img").attr("src"));
-            list.add(data);
+            list.add(element.select("img").attr("src"));
         }
 
         return list;

@@ -11,15 +11,18 @@ public class GirlItemData implements Parcelable {
     private String title;
     private String url;
     private String id;
-
+    private int width;
+    private int height;
 
     public GirlItemData() {
     }
 
-    public GirlItemData(String title, String url, String detailUrl) {
+    public GirlItemData(String title, String url, String id, int width, int height) {
         this.title = title;
         this.url = url;
-        this.id = detailUrl;
+        this.id = id;
+        this.width = width;
+        this.height = height;
     }
 
     public String getTitle() {
@@ -46,6 +49,22 @@ public class GirlItemData implements Parcelable {
         this.id = detailUrl;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,12 +75,16 @@ public class GirlItemData implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.url);
         dest.writeString(this.id);
+        dest.writeInt(this.width);
+        dest.writeInt(this.height);
     }
 
     protected GirlItemData(Parcel in) {
         this.title = in.readString();
         this.url = in.readString();
         this.id = in.readString();
+        this.width = in.readInt();
+        this.height = in.readInt();
     }
 
     public static final Parcelable.Creator<GirlItemData> CREATOR = new Parcelable.Creator<GirlItemData>() {

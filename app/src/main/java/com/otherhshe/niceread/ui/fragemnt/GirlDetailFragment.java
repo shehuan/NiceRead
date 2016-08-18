@@ -1,11 +1,13 @@
 package com.otherhshe.niceread.ui.fragemnt;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.utils.ImageLoader;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -16,10 +18,19 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class GirlDetailFragment extends BaseFragment {
     private static final String URL = "url";
 
+    private boolean mIsViewInitiated;
+    private boolean mIsVisibleToUser;
+    private boolean mIsDataInitiated;
+
     private String mUrl;
 
     @BindView(R.id.girl_detail_iv)
     PhotoView mImageView;
+
+    @OnClick(R.id.girl_detail_iv)
+    void onClic() {
+
+    }
 
     @Override
     protected int initLayoutId() {
@@ -39,6 +50,16 @@ public class GirlDetailFragment extends BaseFragment {
             return;
         }
         mUrl = getArguments().getString(URL);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     public static GirlDetailFragment newInstance(String url) {
