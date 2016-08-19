@@ -28,7 +28,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         mViews = new SparseArray<>();
     }
 
-    public static ViewHolder get(Context context, int layoutId, ViewGroup parent) {
+    public static ViewHolder create(Context context, int layoutId, ViewGroup parent) {
         View itemView = ResourceUtil.inflate(context, layoutId, parent);
         return new ViewHolder(itemView);
     }
@@ -53,13 +53,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return mConvertView;
     }
 
-    /**
-     * 辅助方法
-     *
-     * @param viewId
-     * @param text
-     * @return
-     */
     public ViewHolder setText(int viewId, String text) {
         TextView textView = getView(viewId);
         textView.setText(text);

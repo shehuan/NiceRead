@@ -3,11 +3,13 @@ package com.otherhshe.niceread.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.realm.RealmObject;
+
 /**
  * Author: Othershe
  * Time: 2016/8/17 10:12
  */
-public class GirlItemData implements Parcelable {
+public class GirlItemData extends RealmObject implements Parcelable {
     private String title;
     private String url;
     private String id;

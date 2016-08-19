@@ -14,8 +14,9 @@
 
     <string name="main_menu_search">搜索</string>
     <string name="back_pressed_tip">再按就要说再见了</string>
-    <string name="load_start_tip">努力加载中...</string>
+    <string name="load_loading_tip">努力加载中</string>
     <string name="load_failed_tip">点我再试试？</string>
+    <string name="load_end_tip">我也是有底线的哦</string>
 
     <string name="share_to">分享到</string>
     <string name="copy_success">复制链接成功</string>

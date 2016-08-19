@@ -6,15 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.utils.ResourceUtil;
 
 import java.util.List;
 
-public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+/**
+ * Author: Othershe
+ * Time: 2016/8/18 15:42
+ */
+public abstract class FooterRefreshAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
@@ -29,7 +31,7 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     protected int mLayoutId;
     protected List<T> mDatas;
 
-    private FooterViewHolder mFooterViewHolder;
+    private ViewHolder mFooterViewHolder;
 
     private OnItemClickListener<T> mOnItemClickListener;
 
@@ -41,7 +43,7 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public RefreshAdapter(Context context, List<T> datas) {
+    public FooterRefreshAdapter(Context context, List<T> datas) {
         mContext = context;
         mLayoutId = getItemLayoutId();
         mDatas = datas;
@@ -50,34 +52,22 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            ViewHolder viewHolder = ViewHolder.get(mContext, mLayoutId, parent);
-            setListener(viewHolder);
+            ViewHolder viewHolder = ViewHolder.create(mContext, mLayoutId, parent);
+            setCommonListener(viewHolder);
             return viewHolder;
         } else {
-            if (mFooterViewHolder == null) {
-                mFooterViewHolder = new FooterViewHolder(ResourceUtil.inflate(mContext, R.layout.footer_loading, parent));
-                mFooterViewHolder.mLoadMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mFooterLoadState == STATE_ERROR) {
-                            mFooterViewHolder.mLoading.setVisibility(View.VISIBLE);
-                            mFooterViewHolder.mLoadMore.setVisibility(View.INVISIBLE);
-                            if (mOnItemClickListener != null) {
-                                mOnItemClickListener.onLoadItemClick();
-                            }
-                        }
-                    }
-                });
-            }
+            mFooterViewHolder = ViewHolder.create(mContext, R.layout.footer_loading, parent);
+            setFooterListener(mFooterViewHolder);
             return mFooterViewHolder;
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ViewHolder) {
-            convert(holder, mDatas.get(position));
+        if (isFooterView(position)) {
+            return;
         }
+        convert(holder, mDatas.get(position));
     }
 
     @Override
@@ -93,7 +83,7 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         return TYPE_ITEM;
     }
 
-    protected int getPosition(RecyclerView.ViewHolder viewHolder) {
+    private int getPosition(RecyclerView.ViewHolder viewHolder) {
         return viewHolder.getAdapterPosition();
     }
 
@@ -102,14 +92,24 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     }
 
     /**
-     * StaggeredGridLayoutManager模式时，footer可占据一行
+     * 是否是FooterView
+     *
+     * @param position
+     * @return
+     */
+    private boolean isFooterView(int position) {
+        return position >= getItemCount() - 1;
+    }
+
+    /**
+     * StaggeredGridLayoutManager模式时，FooterView可占据一行
      *
      * @param holder
      */
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-        if (holder.getLayoutPosition() >= getItemCount() - 1) {
+        if (isFooterView(holder.getLayoutPosition())) {
             ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
 
             if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
@@ -120,20 +120,20 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     }
 
     /**
-     * GridLayoutManager模式时， footer可占据一行
+     * GridLayoutManager模式时， FooterView可占据一行
      *
      * @param recyclerView
      */
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager gridManager = ((GridLayoutManager) layoutManager);
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (position>= getItemCount() - 1){
+                    if (isFooterView(position)) {
                         return gridManager.getSpanCount();
                     }
                     return 1;
@@ -142,7 +142,7 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    protected void setListener(final ViewHolder viewHolder) {
+    protected void setCommonListener(final ViewHolder viewHolder) {
 
         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,43 +155,63 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         });
     }
 
+    protected void setFooterListener(final ViewHolder viewHolder) {
+        viewHolder.getView(R.id.id_footer_load_error_end).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFooterLoadState == STATE_ERROR) {
+                    viewHolder.getView(R.id.id_footer_loading).setVisibility(View.VISIBLE);
+                    viewHolder.getView(R.id.id_footer_load_error_end).setVisibility(View.INVISIBLE);
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onLoadItemClick();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新底部加载提示的状态
+     *
+     * @param state
+     */
     public void updateRefreshState(int state) {
         mFooterLoadState = state;
-        if (mFooterLoadState == STATE_START) {
-            mFooterViewHolder.mLoading.setVisibility(View.VISIBLE);
-            mFooterViewHolder.mLoadMore.setVisibility(View.INVISIBLE);
-        }
-
-        if (mFooterLoadState == STATE_ERROR) {
-            mFooterViewHolder.mLoading.setVisibility(View.INVISIBLE);
-            mFooterViewHolder.mLoadMore.setVisibility(View.VISIBLE);
-        }
-
-        if (mFooterLoadState == STATE_FINISH) {
-            mFooterViewHolder.mLoadMore.setText("我也是有底线的哦");
+        switch (state) {
+            case STATE_START:
+                mFooterViewHolder.getView(R.id.id_footer_loading).setVisibility(View.VISIBLE);
+                mFooterViewHolder.getView(R.id.id_footer_load_error_end).setVisibility(View.INVISIBLE);
+                break;
+            case STATE_ERROR:
+                mFooterViewHolder.getView(R.id.id_footer_loading).setVisibility(View.INVISIBLE);
+                mFooterViewHolder.getView(R.id.id_footer_load_error_end).setVisibility(View.VISIBLE);
+                break;
+            case STATE_FINISH:
+                ((TextView) mFooterViewHolder.getView(R.id.id_footer_load_error_end)).setText(R.string.load_end_tip);
+                mFooterViewHolder.getView(R.id.id_footer_loading).setVisibility(View.INVISIBLE);
+                break;
         }
     }
 
+    /**
+     * 更新顶部加载最新
+     *
+     * @param datas
+     */
     public void notifyBottomRefresh(List<T> datas) {
         int size = mDatas.size();
         mDatas.addAll(datas);
         notifyItemInserted(size);
     }
 
+    /**
+     * 更新底部加载更多
+     *
+     * @param datas
+     */
     public void notifyTopRefresh(List<T> datas) {
         mDatas.clear();
         mDatas = datas;
         notifyDataSetChanged();
-    }
-
-    public class FooterViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mLoadMore;
-        public final LinearLayout mLoading;
-
-        public FooterViewHolder(View itemView) {
-            super(itemView);
-            mLoadMore = (TextView) itemView.findViewById(R.id.id_footer_load_more);
-            mLoading = (LinearLayout) itemView.findViewById(R.id.id_footer_loading);
-        }
     }
 }

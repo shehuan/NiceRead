@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
-import com.otherhshe.niceread.ui.adapter.baseadapter.RefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
  * Author: Othershe
  * Time: 2016/8/18 16:53
  */
-public class GankItemAdapter extends RefreshAdapter<GankItemData> {
-    public GankItemAdapter(Context context, List<GankItemData> datas) {
+public class GankItemAdapterFooter extends FooterRefreshAdapter<GankItemData> {
+    public GankItemAdapterFooter(Context context, List<GankItemData> datas) {
         super(context, datas);
     }
 

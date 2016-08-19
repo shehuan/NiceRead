@@ -5,11 +5,11 @@
     android:layout_height="50dp">
 
     <TextView
-        android:id="@+id/id_footer_load_more"
+        android:id="@+id/id_footer_load_error_end"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="点我再试试"
+        android:text="@string/load_failed_tip"
         android:textSize="16sp"
         android:visibility="gone" />
 
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="努力加载中"
+            android:text="@string/load_loading_tip"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
     </LinearLayout>

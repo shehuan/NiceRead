@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import com.otherhshe.niceread.NiceReadApplication;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GirlItemData;
-import com.otherhshe.niceread.ui.adapter.baseadapter.RefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.utils.ImageLoader;
 
@@ -17,8 +17,8 @@ import java.util.List;
  * Author: Othershe
  * Time: 2016/8/18 21:59
  */
-public class MyAdapter extends RefreshAdapter<GirlItemData> {
-    public MyAdapter(Context context, List<GirlItemData> datas) {
+public class GirlItemAdapterFooter extends FooterRefreshAdapter<GirlItemData> {
+    public GirlItemAdapterFooter(Context context, List<GirlItemData> datas) {
         super(context, datas);
     }
 

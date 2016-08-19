@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Author: Othershe
  * Time: 2016/8/12 14:34
  */
-public class GankItemData implements Parcelable {
+public class GankItemData implements Parcelable{
 
     /**
      * _id : 57aca861421aa949ef961f48

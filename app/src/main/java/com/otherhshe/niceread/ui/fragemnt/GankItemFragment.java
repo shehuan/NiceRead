@@ -12,9 +12,9 @@ import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
 import com.otherhshe.niceread.ui.activity.GankDetailActivity;
-import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
+import com.otherhshe.niceread.ui.adapter.GankItemAdapterFooter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
-import com.otherhshe.niceread.ui.adapter.baseadapter.RefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.view.GankItemView;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     private int mTempPageCount = 2;
     private int mLastVisibleItemPosition;
 
-    private GankItemAdapter mGankItemAdapter;
+    private GankItemAdapterFooter mGankItemAdapter;
 
     private boolean isLoadMore;
 
@@ -80,7 +80,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
             }
         });
 
-        mGankItemAdapter = new GankItemAdapter(mActivity, new ArrayList<GankItemData>());
+        mGankItemAdapter = new GankItemAdapterFooter(mActivity, new ArrayList<GankItemData>());
         mGankItemAdapter.setOnItemClickListener(new OnItemClickListener<GankItemData>() {
             @Override
             public void onCommonItemClick(View view, GankItemData gankItemData, int position) {
@@ -91,7 +91,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
             @Override
             public void onLoadItemClick() {
-                mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_START);
+                mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
                 fetchData();
             }
         });
@@ -112,7 +112,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
                     if (mLastVisibleItemPosition > 0 && mLastVisibleItemPosition + 1 == mGankItemAdapter.getItemCount()) {
                         //已到达底部，开始加载更多
                         isLoadMore = true;
-                        mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_START);
+                        mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
                         PAGE_COUNT = mTempPageCount;
                         fetchData();
                     }
@@ -148,10 +148,11 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     public void onSuccess(List<GankItemData> data) {
         if (isLoadMore) {
             if (data.size() == 0) {
-                mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_FINISH);
+                mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_FINISH);
+            } else {
+                mGankItemAdapter.notifyBottomRefresh(data);
+                mTempPageCount++;
             }
-            mGankItemAdapter.notifyBottomRefresh(data);
-            mTempPageCount++;
         } else {
             mGankItemAdapter.notifyTopRefresh(data);
             mSwipeRefreshLayout.setRefreshing(false);
@@ -161,8 +162,8 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     @Override
     public void onError() {
         if (isLoadMore) {
-            mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_ERROR);
-        }else{
+            mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_ERROR);
+        } else {
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }

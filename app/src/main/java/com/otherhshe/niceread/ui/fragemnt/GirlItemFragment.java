@@ -2,40 +2,46 @@ package com.otherhshe.niceread.ui.fragemnt;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GirlItemData;
 import com.otherhshe.niceread.presenter.GirlItemPresenter;
+import com.otherhshe.niceread.sevice.DBService;
 import com.otherhshe.niceread.ui.activity.GirlDetailActivity;
-import com.otherhshe.niceread.ui.adapter.GirlItemAdapter;
-import com.otherhshe.niceread.ui.adapter.MyAdapter;
-import com.otherhshe.niceread.ui.adapter.baseadapter.RefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.GirlItemAdapterFooter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
+import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.view.GirlItemView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Author: Othershe
  * Time: 2016/8/17 10:57
  */
-public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPresenter> implements GirlItemView{
+public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPresenter> implements GirlItemView, SwipeRefreshLayout.OnRefreshListener {
+    private int PAGE_COUNT = 1;
     private String mSubtype;
-    private int mPageCount = 1;
+    private int mTempPageCount = 2;
 
-    private GirlItemAdapter mGirlItemAdapter;
-    MyAdapter adapter;
+    private GirlItemAdapterFooter mGirlItemAdapter;
+
+    private boolean isLoadMore;
 
     @BindView(R.id.type_item_recyclerview)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.type_item_swipfreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected GirlItemPresenter initPresenter() {
@@ -44,7 +50,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
     @Override
     protected void fetchData() {
-        mPresenter.getGirlItemData(mSubtype, mPageCount);
+        mPresenter.getGirlItemData(mSubtype, PAGE_COUNT);
     }
 
     @Override
@@ -54,20 +60,37 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
     @Override
     protected void initView() {
-//        mGirlItemAdapter = new GirlItemAdapter(R.layout.item_girl_layout, new ArrayList<GirlItemData>());
-//        mGirlItemAdapter.setOnRecyclerViewItemClickListener(this);
-//        mGirlItemAdapter.openLoadMore(10, true);
-//        mGirlItemAdapter.setOnLoadMoreListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        //实现首次自动显示加载提示
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
 
-//        View view = LayoutInflater.from(mActivity).inflate(R.layout.load_start_layout, (ViewGroup) mRecyclerView.getParent(), false);
-//        mGirlItemAdapter.setEmptyView(view);
+        mGirlItemAdapter = new GirlItemAdapterFooter(mActivity, new ArrayList<GirlItemData>());
+        mGirlItemAdapter.setOnItemClickListener(new OnItemClickListener<GirlItemData>() {
+            @Override
+            public void onCommonItemClick(View view, GirlItemData girlItemData, int position) {
+                Intent intent = new Intent(mActivity, GirlDetailActivity.class);
+                intent.putExtra("girl_item_data", girlItemData);
+                startActivity(intent);
+            }
 
-         adapter = new MyAdapter(mActivity, new ArrayList<GirlItemData>());
-        mRecyclerView.setAdapter(adapter);
+            @Override
+            public void onLoadItemClick() {
+                mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
+                fetchData();
+            }
+        });
 
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//据说可防止Item切换
         mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setAdapter(mGirlItemAdapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -75,8 +98,12 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
                 super.onScrollStateChanged(recyclerView, newState);
 
                 int[] lastVisiblePositions = layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]);
-                if (findMax(lastVisiblePositions) + 1 == adapter.getItemCount()){
-                    adapter.updateRefreshState(RefreshAdapter.STATE_START);
+                if (findMax(lastVisiblePositions) + 1 == mGirlItemAdapter.getItemCount()) {
+                    //已到达底部，开始加载更多
+                    isLoadMore = true;
+                    mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
+                    PAGE_COUNT = mTempPageCount;
+                    fetchData();
                 }
             }
         });
@@ -98,23 +125,37 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
             return;
         }
         mSubtype = getArguments().getString(SUB_TYPE);
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<GirlItemData> results = realm.where(GirlItemData.class).findAll();
+
+        results.size();
     }
 
     @Override
     public void onSuccess(List<GirlItemData> data) {
-//        if (mPageCount > 1) {
-//            mGirlItemAdapter.notifyDataChangedAfterLoadMore(data, true);
-//        } else {
-//            mGirlItemAdapter.setNewData(data);
-//        }
+        if (isLoadMore) {
+            if (data.size() == 0) {
+                mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_FINISH);
+            } else {
+                mGirlItemAdapter.notifyBottomRefresh(data);
+                mTempPageCount++;
+            }
+        } else {
+            mGirlItemAdapter.notifyTopRefresh(data);
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
 
-        adapter.notifyTopRefresh(data);
-        mPageCount++;
+        DBService.startService(mActivity, data);
     }
 
     @Override
     public void onError() {
-
+        if (isLoadMore) {
+            mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_ERROR);
+        } else {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public static GirlItemFragment newInstance(String subtype) {
@@ -125,16 +166,10 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
         return fragment;
     }
 
-//    @Override
-//    public void onItemClick(View view, int i) {
-//        GirlItemData data = mGirlItemAdapter.getItem(i);
-//        Intent intent = new Intent(mActivity, GirlDetailActivity.class);
-//        intent.putExtra("girl_item_data", data);
-//        startActivity(intent);
-//    }
-//
-//    @Override
-//    public void onLoadMoreRequested() {
-//        fetchData();
-//    }
+    @Override
+    public void onRefresh() {
+        isLoadMore = false;
+        PAGE_COUNT = 1;
+        fetchData();
+    }
 }

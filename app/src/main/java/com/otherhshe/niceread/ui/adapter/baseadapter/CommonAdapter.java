@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Author: Othershe
- * Time: 2016/8/18 11:48
+ * Time: 2016/8/18 15:40
  */
 public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
@@ -32,7 +32,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder viewHolder = ViewHolder.get(mContext, mLayoutId, parent);
+        ViewHolder viewHolder = ViewHolder.create(mContext, mLayoutId, parent);
         setListener(viewHolder);
         return viewHolder;
     }
@@ -47,7 +47,6 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         return mDatas.size();
     }
 
-
     protected int getPosition(RecyclerView.ViewHolder viewHolder) {
         return viewHolder.getAdapterPosition();
     }
@@ -55,6 +54,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
     protected abstract void convert(ViewHolder holder, T t);
 
     protected void setListener(final ViewHolder viewHolder) {
+
         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

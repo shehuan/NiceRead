@@ -25,6 +25,8 @@
 
         <activity android:name=".ui.activity.GankDetailActivity" />
         <activity android:name=".ui.activity.GirlDetailActivity" />
+
+        <service android:name=".sevice.DBService"/>
     </application>
 
 </manifest>
