@@ -12,7 +12,7 @@ import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
 import com.otherhshe.niceread.ui.activity.GankDetailActivity;
-import com.otherhshe.niceread.ui.adapter.MyAdapter;
+import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.RefreshAdapter;
 import com.otherhshe.niceread.ui.view.GankItemView;
@@ -35,7 +35,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     private int mTempPageCount = 2;
     private int mLastVisibleItemPosition;
 
-    private MyAdapter adapter;
+    private GankItemAdapter mGankItemAdapter;
 
     private boolean isLoadMore;
 
@@ -80,8 +80,8 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
             }
         });
 
-        adapter = new MyAdapter(mActivity, new ArrayList<GankItemData>());
-        adapter.setOnItemClickListener(new OnItemClickListener<GankItemData>() {
+        mGankItemAdapter = new GankItemAdapter(mActivity, new ArrayList<GankItemData>());
+        mGankItemAdapter.setOnItemClickListener(new OnItemClickListener<GankItemData>() {
             @Override
             public void onCommonItemClick(View view, GankItemData gankItemData, int position) {
                 Intent intent = new Intent(mActivity, GankDetailActivity.class);
@@ -91,7 +91,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
             @Override
             public void onLoadItemClick() {
-                adapter.updateRefreshState(RefreshAdapter.STATE_START);
+                mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_START);
                 fetchData();
             }
         });
@@ -100,7 +100,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mGankItemAdapter);
 
         //RecyclerView滚动监听
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -109,10 +109,10 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     mLastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                    if (mLastVisibleItemPosition > 0 && mLastVisibleItemPosition + 1 == adapter.getItemCount()) {
+                    if (mLastVisibleItemPosition > 0 && mLastVisibleItemPosition + 1 == mGankItemAdapter.getItemCount()) {
                         //已到达底部，开始加载更多
                         isLoadMore = true;
-                        adapter.updateRefreshState(RefreshAdapter.STATE_START);
+                        mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_START);
                         PAGE_COUNT = mTempPageCount;
                         fetchData();
                     }
@@ -148,12 +148,12 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     public void onSuccess(List<GankItemData> data) {
         if (isLoadMore) {
             if (data.size() == 0) {
-                adapter.updateRefreshState(RefreshAdapter.STATE_FINISH);
+                mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_FINISH);
             }
-            adapter.notifyBottomRefresh(data);
+            mGankItemAdapter.notifyBottomRefresh(data);
             mTempPageCount++;
         } else {
-            adapter.notifyTopRefresh(data);
+            mGankItemAdapter.notifyTopRefresh(data);
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -161,7 +161,9 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     @Override
     public void onError() {
         if (isLoadMore) {
-            adapter.updateRefreshState(RefreshAdapter.STATE_ERROR);
+            mGankItemAdapter.updateRefreshState(RefreshAdapter.STATE_ERROR);
+        }else{
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 

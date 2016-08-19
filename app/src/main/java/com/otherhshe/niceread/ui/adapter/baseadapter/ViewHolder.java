@@ -3,11 +3,11 @@ package com.otherhshe.niceread.ui.adapter.baseadapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.otherhshe.niceread.utils.ResourceUtil;
 
 /**
  * Author: Othershe
@@ -16,25 +16,21 @@ import android.widget.TextView;
 public class ViewHolder extends RecyclerView.ViewHolder {
     private SparseArray<View> mViews;
     private View mConvertView;
-    private Context mContext;
 
     /**
-     * 自扩展构造方法
+     * 构造方法
      *
-     * @param context
      * @param itemView
-     * @param parent
      */
-    public ViewHolder(Context context, View itemView, ViewGroup parent) {
+    public ViewHolder(View itemView) {
         super(itemView);
-        mContext = context;
         mConvertView = itemView;
         mViews = new SparseArray<>();
     }
 
     public static ViewHolder get(Context context, int layoutId, ViewGroup parent) {
-        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        return new ViewHolder(context, itemView, parent);
+        View itemView = ResourceUtil.inflate(context, layoutId, parent);
+        return new ViewHolder(itemView);
     }
 
     /**

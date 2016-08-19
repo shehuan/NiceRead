@@ -2,42 +2,37 @@ package com.otherhshe.niceread.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.widget.ImageView;
 
+import com.otherhshe.niceread.NiceReadApplication;
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GankItemData;
+import com.otherhshe.niceread.data.GirlItemData;
 import com.otherhshe.niceread.ui.adapter.baseadapter.RefreshAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
+import com.otherhshe.niceread.utils.ImageLoader;
 
 import java.util.List;
 
 /**
  * Author: Othershe
- * Time: 2016/8/18 16:53
+ * Time: 2016/8/18 21:59
  */
-public class MyAdapter extends RefreshAdapter<GankItemData> {
-    public MyAdapter(Context context, List<GankItemData> datas) {
+public class MyAdapter extends RefreshAdapter<GirlItemData> {
+    public MyAdapter(Context context, List<GirlItemData> datas) {
         super(context, datas);
     }
 
     @Override
-    protected void convert(RecyclerView.ViewHolder viewHolder, GankItemData gankItemData) {
+    protected void convert(RecyclerView.ViewHolder viewHolder, GirlItemData girlItemData) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        holder.setText(R.id.gank_item_desc, gankItemData.getDesc());
-
-        String who = TextUtils.isEmpty(gankItemData.getWho()) ? "null" : gankItemData.getWho();
-        holder.setText(R.id.gank_item_who, who);
-
-        holder.setText(R.id.gank_item_publishedat, gankItemData.getPublishedAt().substring(0, 10));
-
-        if (gankItemData.getUrl().contains("github")) {
-            holder.setBgRes(R.id.gank_item_icon, R.drawable.github);
-        }
+        ImageView imageView = holder.getView(R.id.girl_item_iv);
+//        imageView.setInitSize(girlItemData.getWidth(), girlItemData.getHeight());
+        ImageLoader.load(NiceReadApplication.getContext(),
+                girlItemData.getUrl(), imageView);
     }
 
     @Override
     protected int getItemLayoutId() {
-        return R.layout.item_gank_layout;
+        return R.layout.item_girl_layout;
     }
-
 }

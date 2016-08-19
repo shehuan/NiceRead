@@ -1,7 +1,9 @@
 package com.otherhshe.niceread.ui.adapter.baseadapter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -95,6 +97,51 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         return viewHolder.getAdapterPosition();
     }
 
+    public T getItem(int position) {
+        return mDatas.get(position);
+    }
+
+    /**
+     * StaggeredGridLayoutManager模式时，footer可占据一行
+     *
+     * @param holder
+     */
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if (holder.getLayoutPosition() >= getItemCount() - 1) {
+            ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+
+            if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+                StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+                p.setFullSpan(true);
+            }
+        }
+    }
+
+    /**
+     * GridLayoutManager模式时， footer可占据一行
+     *
+     * @param recyclerView
+     */
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            final GridLayoutManager gridManager = ((GridLayoutManager) layoutManager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (position>= getItemCount() - 1){
+                        return gridManager.getSpanCount();
+                    }
+                    return 1;
+                }
+            });
+        }
+    }
+
     protected void setListener(final ViewHolder viewHolder) {
 
         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
@@ -121,7 +168,7 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         }
 
         if (mFooterLoadState == STATE_FINISH) {
-            mFooterViewHolder.mLoadMore.setText("这是我的底线");
+            mFooterViewHolder.mLoadMore.setText("我也是有底线的哦");
         }
     }
 
@@ -135,10 +182,6 @@ public abstract class RefreshAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         mDatas.clear();
         mDatas = datas;
         notifyDataSetChanged();
-    }
-
-    public T getItem(int position) {
-        return mDatas.get(position);
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
