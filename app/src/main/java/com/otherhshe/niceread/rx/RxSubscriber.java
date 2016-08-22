@@ -4,13 +4,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.otherhshe.niceread.NiceReadApplication;
-import com.otherhshe.niceread.R;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 import rx.Subscriber;
 

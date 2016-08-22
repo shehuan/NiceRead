@@ -11,12 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.ui.fragemnt.BaseFragment;
 import com.otherhshe.niceread.ui.fragemnt.TypeFragment;
 import com.otherhshe.niceread.utils.ResourceUtil;
+import com.otherhshe.niceread.utils.SnackBarUtil;
 
 import butterknife.BindView;
 
@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity {
         icon.setImageResource(R.mipmap.ic_launcher);
         TextView name = (TextView) mNavView.getHeaderView(0).findViewById(R.id.nav_head_name);
         name.setText(R.string.app_name);
+        mNavView.setCheckedItem(R.id.nav_gank);//设置默认选中
         //设置NavigationView对应menu item的点击事情
         mNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -137,7 +138,7 @@ public class MainActivity extends BaseActivity {
 
             isBackPressed = true;
 
-            Toast.makeText(mContext, R.string.back_pressed_tip, Toast.LENGTH_SHORT).show();
+            SnackBarUtil.show(mDrawerLayout, R.string.back_pressed_tip);
 
             new Handler().postDelayed(new Runnable() {
                 @Override

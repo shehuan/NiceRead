@@ -5,24 +5,27 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GirlItemData;
 import com.otherhshe.niceread.presenter.GirlItemPresenter;
-import com.otherhshe.niceread.sevice.DBService;
+import com.otherhshe.niceread.sevice.DataService;
 import com.otherhshe.niceread.ui.activity.GirlDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GirlItemAdapterFooter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.view.GirlItemView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Author: Othershe
@@ -35,7 +38,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
     private GirlItemAdapterFooter mGirlItemAdapter;
 
-    private boolean isLoadMore;
+    private boolean isLoadMore;//是否是底部加载更多
 
     @BindView(R.id.type_item_recyclerview)
     RecyclerView mRecyclerView;
@@ -51,6 +54,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
     @Override
     protected void fetchData() {
         mPresenter.getGirlItemData(mSubtype, PAGE_COUNT);
+        Log.e("GirlItemFragment", mSubtype + "-------" + PAGE_COUNT);
     }
 
     @Override
@@ -60,6 +64,8 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
+
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         //实现首次自动显示加载提示
@@ -87,7 +93,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
         });
 
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//据说可防止Item切换
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//可防止Item切换
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setAdapter(mGirlItemAdapter);
@@ -98,7 +104,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
                 super.onScrollStateChanged(recyclerView, newState);
 
                 int[] lastVisiblePositions = layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]);
-                if (findMax(lastVisiblePositions) + 1 == mGirlItemAdapter.getItemCount()) {
+                if (findMax(lastVisiblePositions) + 1 == mGirlItemAdapter.getItemCount() && mGirlItemAdapter.getItemCount() > 1) {
                     //已到达底部，开始加载更多
                     isLoadMore = true;
                     mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
@@ -125,28 +131,11 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
             return;
         }
         mSubtype = getArguments().getString(SUB_TYPE);
-
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<GirlItemData> results = realm.where(GirlItemData.class).findAll();
-
-        results.size();
     }
 
     @Override
     public void onSuccess(List<GirlItemData> data) {
-        if (isLoadMore) {
-            if (data.size() == 0) {
-                mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_FINISH);
-            } else {
-                mGirlItemAdapter.notifyBottomRefresh(data);
-                mTempPageCount++;
-            }
-        } else {
-            mGirlItemAdapter.notifyTopRefresh(data);
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-
-        DBService.startService(mActivity, data);
+        DataService.startService(mActivity, data, mSubtype);
     }
 
     @Override
@@ -171,5 +160,24 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
         isLoadMore = false;
         PAGE_COUNT = 1;
         fetchData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void dataEvent(List<GirlItemData> data) {
+        if (!data.get(0).getSubtype().equals(mSubtype)) {
+            return;
+        }
+
+        if (isLoadMore) {
+            if (data.size() == 0) {
+                mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_FINISH);
+            } else {
+                mTempPageCount++;
+                mGirlItemAdapter.notifyBottomRefresh(data);
+            }
+        } else {
+            mGirlItemAdapter.notifyTopRefresh(data);
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

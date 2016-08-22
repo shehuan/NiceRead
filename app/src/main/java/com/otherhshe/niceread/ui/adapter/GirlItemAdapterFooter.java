@@ -2,13 +2,13 @@ package com.otherhshe.niceread.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
 
 import com.otherhshe.niceread.NiceReadApplication;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GirlItemData;
 import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
+import com.otherhshe.niceread.ui.weiget.ScaleImageView;
 import com.otherhshe.niceread.utils.ImageLoader;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class GirlItemAdapterFooter extends FooterRefreshAdapter<GirlItemData> {
     @Override
     protected void convert(RecyclerView.ViewHolder viewHolder, GirlItemData girlItemData) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        ImageView imageView = holder.getView(R.id.girl_item_iv);
-//        imageView.setInitSize(girlItemData.getWidth(), girlItemData.getHeight());
+        ScaleImageView imageView = holder.getView(R.id.girl_item_iv);
+        imageView.setInitSize(girlItemData.getWidth(), girlItemData.getHeight());
         ImageLoader.load(NiceReadApplication.getContext(),
                 girlItemData.getUrl(), imageView);
     }

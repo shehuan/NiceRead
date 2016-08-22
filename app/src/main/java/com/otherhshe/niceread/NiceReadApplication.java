@@ -3,6 +3,8 @@ package com.otherhshe.niceread;
 import android.app.Application;
 import android.content.Context;
 
+import com.otherhshe.niceread.utils.SPUtil;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -20,6 +22,7 @@ public class NiceReadApplication extends Application {
         mContext = getApplicationContext();
 
         initRealm();
+        SPUtil.init(mContext, "niceread");
     }
 
     public static Context getContext() {

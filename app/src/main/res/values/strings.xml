@@ -20,4 +20,6 @@
 
     <string name="share_to">分享到</string>
     <string name="copy_success">复制链接成功</string>
+
+    <string name="net_error">网络链接异常</string>
 </resources>

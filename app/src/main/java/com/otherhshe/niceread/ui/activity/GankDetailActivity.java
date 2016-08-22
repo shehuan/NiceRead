@@ -120,7 +120,7 @@ public class GankDetailActivity extends BaseActivity {
                 break;
             case R.id.menu_copy:
                 CopyUtil.copy(mContext, mGankItemData.getUrl());
-                SnackBarUtil.showSnack(mWebView, R.string.copy_success);
+                SnackBarUtil.show(mWebView, R.string.copy_success);
                 break;
         }
         return super.onOptionsItemSelected(item);
