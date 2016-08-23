@@ -44,9 +44,7 @@ public class TypeFragment extends BaseFragment {
         mTypeAdapter.setData(mFragments, mTitles);
         mViewPager.setAdapter(mTypeAdapter);
         mViewPager.setOffscreenPageLimit(mTitles.size() - 1);
-        if (ResourceUtil.resToStr(mActivity, R.string.gank).equals(mType) || ResourceUtil.resToStr(mActivity, R.string.girl).equals(mType)) {
-            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        }
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

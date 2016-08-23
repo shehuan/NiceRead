@@ -1,6 +1,7 @@
 package com.otherhshe.niceread.presenter;
 
 import com.otherhshe.niceread.data.SplashData;
+import com.otherhshe.niceread.model.ISplashModel;
 import com.otherhshe.niceread.model.impl.SplashModelImpl;
 import com.otherhshe.niceread.rx.RxManager;
 import com.otherhshe.niceread.rx.RxSubscriber;
@@ -11,7 +12,7 @@ import com.otherhshe.niceread.ui.view.SplashView;
  * Time:  2016/8/11 11:26
  */
 public class SplashPresenter extends BasePresenter<SplashView> {
-    private SplashModelImpl mModel;
+    private ISplashModel mModel;
 
     public SplashPresenter() {
         mModel = new SplashModelImpl();

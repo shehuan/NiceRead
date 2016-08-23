@@ -1,5 +1,6 @@
 package com.otherhshe.niceread.presenter;
 
+import com.otherhshe.niceread.model.IGirlDetailModel;
 import com.otherhshe.niceread.model.impl.GirlDetailModelImpl;
 import com.otherhshe.niceread.rx.RxManager;
 import com.otherhshe.niceread.rx.RxSubscriber;
@@ -11,7 +12,7 @@ import com.otherhshe.niceread.utils.JsoupUtil;
  * Time: 2016/8/12 14:29
  */
 public class GirlDetailPresenter extends BasePresenter<GirlDetailView> {
-    private GirlDetailModelImpl mModel;
+    private IGirlDetailModel mModel;
 
     public GirlDetailPresenter() {
         mModel = new GirlDetailModelImpl();

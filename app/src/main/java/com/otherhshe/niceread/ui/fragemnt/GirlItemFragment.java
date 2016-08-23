@@ -104,6 +104,11 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
                 super.onScrollStateChanged(recyclerView, newState);
 
                 int[] lastVisiblePositions = layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]);
+                //防止重复请求
+                if (PAGE_COUNT == mTempPageCount) {
+                    return;
+                }
+
                 if (findMax(lastVisiblePositions) + 1 == mGirlItemAdapter.getItemCount() && mGirlItemAdapter.getItemCount() > 1) {
                     //已到达底部，开始加载更多
                     isLoadMore = true;

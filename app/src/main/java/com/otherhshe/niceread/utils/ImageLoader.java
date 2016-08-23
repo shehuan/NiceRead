@@ -18,7 +18,7 @@ public class ImageLoader {
     public static void load(Context context, String url, ImageView iv) {
         Glide.with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)//让Glide既缓存全尺寸图片，下次在任何ImageView中加载图片的时候，全尺寸的图片将从缓存中取出，重新调整大小，然后缓存
                 .crossFade()
                 .into(iv);
     }
@@ -26,11 +26,16 @@ public class ImageLoader {
     public static void load(Context context, int resId, ImageView iv) {
         Glide.with(context)
                 .load(resId)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(iv);
     }
 
+    /**
+     * 需要在子线程执行
+     * @param context
+     * @param url
+     * @return
+     */
     public static Bitmap load(Context context, String url) {
         try {
             return Glide.with(context)

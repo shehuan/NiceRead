@@ -7,8 +7,12 @@ import android.widget.ImageView;
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.SplashData;
 import com.otherhshe.niceread.presenter.SplashPresenter;
+import com.otherhshe.niceread.ui.fragemnt.SetFragment;
 import com.otherhshe.niceread.ui.view.SplashView;
+import com.otherhshe.niceread.utils.DateUtil;
 import com.otherhshe.niceread.utils.ImageLoader;
+import com.otherhshe.niceread.utils.NetUtil;
+import com.otherhshe.niceread.utils.SPUtil;
 
 import butterknife.BindView;
 
@@ -17,6 +21,8 @@ import butterknife.BindView;
  * Time:  2016/8/11 11:22
  */
 public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter> implements SplashView {
+    private String mTimeLine;
+
     @BindView(R.id.splash_iv)
     ImageView mSplashIv;
 
@@ -27,7 +33,9 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
 
     @Override
     protected void fetchData() {
-        mPresenter.getSplashPic();
+        if (!DateUtil.formatDate().equals(mTimeLine)) {
+            mPresenter.getSplashPic();
+        }
     }
 
     @Override
@@ -37,18 +45,32 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
 
     @Override
     protected void initView() {
+        if (!(Boolean) SPUtil.get(SetFragment.SPLASH, false) || !NetUtil.isConnected(mContext)) {
+            ImageLoader.load(mContext, R.drawable.original_splash, mSplashIv);
+        } else {
+            ImageLoader.load(mContext, (String) SPUtil.get("splash_url", ""), mSplashIv);
+        }
 
+        startDelay();
     }
 
     @Override
     protected void initData() {
-
+        mTimeLine = (String) SPUtil.get("splash_time", "");
     }
 
     @Override
     public void onSuccess(SplashData data) {
-        ImageLoader.load(mContext, data.getUrl(), mSplashIv);
+        SPUtil.save("splash_time", DateUtil.formatDate());
+        SPUtil.save("splash_url", data.getUrl());
+    }
 
+    @Override
+    public void onError() {
+
+    }
+
+    private void startDelay() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -57,10 +79,5 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter>
                 finish();
             }
         }, 2000);
-    }
-
-    @Override
-    public void onError() {
-        finish();
     }
 }

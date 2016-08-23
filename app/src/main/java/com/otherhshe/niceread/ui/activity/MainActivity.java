@@ -1,5 +1,6 @@
 package com.otherhshe.niceread.ui.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -96,12 +97,11 @@ public class MainActivity extends BaseActivity {
                     case R.id.nav_girl:
                         doReplace(ResourceUtil.resToStr(mContext, R.string.girl));
                         break;
-                    case R.id.nav_video:
-                        doReplace(ResourceUtil.resToStr(mContext, R.string.video));
-                        break;
                     case R.id.nav_share:
+
                         break;
                     case R.id.nav_set:
+                        openSet();
                         break;
                     case R.id.nav_about:
                         break;
@@ -124,6 +124,11 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_fragment_container, fragment, tag);
         transaction.commit();
+    }
+
+    private void openSet() {
+        Intent intent = new Intent(mContext, SetActivity.class);
+        startActivity(intent);
     }
 
     @Override

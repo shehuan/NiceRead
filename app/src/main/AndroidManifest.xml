@@ -3,6 +3,7 @@
     package="com.otherhshe.niceread">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".NiceReadApplication"
@@ -25,8 +26,9 @@
 
         <activity android:name=".ui.activity.GankDetailActivity" />
         <activity android:name=".ui.activity.GirlDetailActivity" />
+        <activity android:name=".ui.activity.SetActivity" />
 
-        <service android:name=".sevice.DataService"/>
+        <service android:name=".sevice.DataService" />
     </application>
 
 </manifest>

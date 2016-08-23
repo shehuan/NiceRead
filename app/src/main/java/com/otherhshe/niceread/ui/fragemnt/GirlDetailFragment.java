@@ -18,19 +18,10 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class GirlDetailFragment extends BaseFragment {
     private static final String URL = "url";
 
-    private boolean mIsViewInitiated;
-    private boolean mIsVisibleToUser;
-    private boolean mIsDataInitiated;
-
     private String mUrl;
 
     @BindView(R.id.girl_detail_iv)
     PhotoView mImageView;
-
-    @OnClick(R.id.girl_detail_iv)
-    void onClic() {
-
-    }
 
     @Override
     protected int initLayoutId() {

@@ -109,6 +109,11 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     mLastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                    //防止重复请求
+                    if (PAGE_COUNT == mTempPageCount) {
+                        return;
+                    }
+
                     if (mLastVisibleItemPosition > 0 && mLastVisibleItemPosition + 1 == mGankItemAdapter.getItemCount()) {
                         //已到达底部，开始加载更多
                         isLoadMore = true;
