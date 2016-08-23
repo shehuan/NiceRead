@@ -1,6 +1,7 @@
 package com.otherhshe.niceread.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -10,12 +11,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.ui.fragemnt.BaseFragment;
 import com.otherhshe.niceread.ui.fragemnt.TypeFragment;
+import com.otherhshe.niceread.utils.CommonUtil;
 import com.otherhshe.niceread.utils.ResourceUtil;
 import com.otherhshe.niceread.utils.SnackBarUtil;
 
@@ -43,6 +47,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        initStatusBar();
+
         initDrawer();
         initNavigationView();
 
@@ -129,6 +135,22 @@ public class MainActivity extends BaseActivity {
     private void openSet() {
         Intent intent = new Intent(mContext, SetActivity.class);
         startActivity(intent);
+    }
+
+    private void initStatusBar() {
+        ViewGroup contentLayout = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+        View statusBarView = new View(mContext);
+        statusBarView.setBackgroundColor(ResourceUtil.resToColor(mContext, R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.getStatusBarHeight(mContext));
+        contentLayout.addView(statusBarView, lp);
+
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            //将侧边栏顶部延伸至status bar
+//            mDrawerLayout.setFitsSystemWindows(true);
+//            //将主页面顶部延伸至status bar
+//            mDrawerLayout.setClipToPadding(false);
+//        }
     }
 
     @Override

@@ -31,4 +31,8 @@ public class ResourceUtil {
     public static View inflate(Context context, int viewId, ViewGroup root) {
         return LayoutInflater.from(context).inflate(viewId, root, false);
     }
+
+    public static int resToColor(Context context, int colorId){
+        return context.getResources().getColor(colorId);
+    }
 }
