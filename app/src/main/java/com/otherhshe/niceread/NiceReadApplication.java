@@ -5,9 +5,6 @@ import android.content.Context;
 
 import com.otherhshe.niceread.utils.SPUtil;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
 /**
  * Author: Othershe
  * Time:  2016/8/11 10:37
@@ -30,7 +27,7 @@ public class NiceReadApplication extends Application {
     }
 
     private void initRealm() {
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+//        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
+//        Realm.setDefaultConfiguration(realmConfiguration);
     }
 }
