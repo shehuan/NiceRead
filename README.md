@@ -10,9 +10,6 @@
 * 网页数据抓取
 * PreferenceFragment
 
-预览：
-![](https://github.com/Othershe/NiceRead/blob/master/1.gif)  ![](https://github.com/Othershe/NiceRead/blob/master/2.gif)
-
 主要用到的第三方库：
 * retrof:it2.1.0
 * rxjava:1.1.6
@@ -22,6 +19,10 @@
 * butterknife:8.2.1
 * eventbus:3.0.0
 * AVLoadingIndicatorView:2.1.2
+
+预览：
+
+![](https://github.com/Othershe/NiceRead/blob/master/1.gif) ![](https://github.com/Othershe/NiceRead/blob/master/2.gif)
 
 感谢：
 * [daimajia的干货集中营Api](http://gank.io/)
