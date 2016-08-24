@@ -30,9 +30,31 @@ public class GankItemAdapterFooter extends FooterRefreshAdapter<GankItemData> {
 
         holder.setText(R.id.gank_item_publishedat, gankItemData.getPublishedAt().substring(0, 10));
 
-        if (gankItemData.getUrl().contains("github")) {
-            holder.setBgRes(R.id.gank_item_icon, R.drawable.github);
+        String url = gankItemData.getUrl();
+        int iconId;
+        if (url.contains("github")) {
+            iconId = R.drawable.github;
+        } else if (url.contains("jianshu")) {
+            iconId = R.drawable.jianshu;
+        } else if (url.contains("csdn")) {
+            iconId = R.drawable.csdn;
+        } else if (url.contains("miaopai")) {
+            iconId = R.drawable.miaopai;
+        } else if (url.contains("acfun")) {
+            iconId = R.drawable.acfun;
+        } else if (url.contains("bilibili")) {
+            iconId = R.drawable.bilibili;
+        } else if (url.contains("youku")) {
+            iconId = R.drawable.youku;
+        } else if (url.contains("weibo")) {
+            iconId = R.drawable.weibo;
+        } else if (url.contains("weixin")) {
+            iconId = R.drawable.weixin;
+        } else {
+            iconId = R.drawable.web;
         }
+
+        holder.setBgRes(R.id.gank_item_icon, iconId);
     }
 
     @Override

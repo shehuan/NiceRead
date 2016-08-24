@@ -11,6 +11,7 @@ import com.otherhshe.niceread.ui.adapter.GirlDetailAdapter;
 import com.otherhshe.niceread.ui.fragemnt.BaseFragment;
 import com.otherhshe.niceread.ui.fragemnt.GirlDetailFragment;
 import com.otherhshe.niceread.ui.view.GirlDetailView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class GirlDetailActivity extends BaseMvpActivity<GirlDetailView, GirlDeta
 
     @BindView(R.id.girl_detail_toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.girl_detail_loading)
+    AVLoadingIndicatorView mLoading;
 
     @Override
     protected GirlDetailPresenter initPresenter() {
@@ -66,6 +70,8 @@ public class GirlDetailActivity extends BaseMvpActivity<GirlDetailView, GirlDeta
         adapter.setData(fragments);
         mViewPager.setOffscreenPageLimit(data.size());
         mViewPager.setAdapter(adapter);
+
+        mLoading.hide();
     }
 
     @Override

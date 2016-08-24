@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.View;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GirlItemData;
@@ -16,6 +15,7 @@ import com.otherhshe.niceread.ui.activity.GirlDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GirlItemAdapterFooter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.ui.view.GirlItemView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +79,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
         mGirlItemAdapter = new GirlItemAdapterFooter(mActivity, new ArrayList<GirlItemData>());
         mGirlItemAdapter.setOnItemClickListener(new OnItemClickListener<GirlItemData>() {
             @Override
-            public void onCommonItemClick(View view, GirlItemData girlItemData, int position) {
+            public void onCommonItemClick(ViewHolder viewHolder, GirlItemData girlItemData, int position) {
                 Intent intent = new Intent(mActivity, GirlDetailActivity.class);
                 intent.putExtra("girl_item_data", girlItemData);
                 startActivity(intent);

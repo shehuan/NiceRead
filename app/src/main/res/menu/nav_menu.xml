@@ -18,10 +18,6 @@
         android:id="@+id/group_two"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/share"
-            android:title="@string/share" />
-        <item
             android:id="@+id/nav_set"
             android:icon="@drawable/setting"
             android:title="@string/set" />

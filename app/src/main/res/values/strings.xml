@@ -28,4 +28,6 @@
     <string name="set_cache_title">清除缓存</string>
     <string name="set_splash_summary">默认使用本地启动图，不从网络获取</string>
     <string name="set_splash_title">启动图设置</string>
+
+    <string name="main_share_content">项目Github地址：https://github.com/Othershe/NiceRead</string>
 </resources>

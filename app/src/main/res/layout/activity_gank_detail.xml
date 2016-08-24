@@ -34,7 +34,8 @@
         android:id="@+id/gank_detail_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/gank_detail_progress" />
+        android:layout_below="@id/gank_detail_progress"
+        android:transitionName="shareView" />
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/gank_detail_loading"

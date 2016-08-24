@@ -3,7 +3,8 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="?attr/colorPrimary"
+    android:paddingTop="@dimen/toolbar_padding_top">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main_appbar"
@@ -27,6 +28,7 @@
         android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

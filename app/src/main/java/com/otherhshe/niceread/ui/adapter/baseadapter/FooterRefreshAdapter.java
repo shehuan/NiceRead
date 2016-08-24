@@ -149,7 +149,7 @@ public abstract class FooterRefreshAdapter<T> extends RecyclerView.Adapter<Recyc
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = getPosition(viewHolder);
-                    mOnItemClickListener.onCommonItemClick(v, mDatas.get(position), position);
+                    mOnItemClickListener.onCommonItemClick(viewHolder, mDatas.get(position), position);
                 }
             }
         });

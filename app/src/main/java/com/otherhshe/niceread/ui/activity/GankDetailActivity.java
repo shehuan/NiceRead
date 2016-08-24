@@ -116,7 +116,7 @@ public class GankDetailActivity extends BaseActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_share:
-                ShareUtil.share(mContext, mGankItemData.getUrl());
+                ShareUtil.share(mContext, mGankItemData.getDesc() + "\n" + mGankItemData.getUrl());
                 break;
             case R.id.menu_copy:
                 CopyUtil.copy(mContext, mGankItemData.getUrl());
@@ -148,5 +148,11 @@ public class GankDetailActivity extends BaseActivity {
             }
         }
         return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mWebView.destroy();
+        super.onDestroy();
     }
 }

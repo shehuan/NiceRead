@@ -2,7 +2,6 @@ package com.otherhshe.niceread.ui.adapter.baseadapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,7 +59,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = getPosition(viewHolder);
-                    mOnItemClickListener.onCommonItemClick(v, mDatas.get(position), position);
+                    mOnItemClickListener.onCommonItemClick(viewHolder, mDatas.get(position), position);
                 }
             }
         });

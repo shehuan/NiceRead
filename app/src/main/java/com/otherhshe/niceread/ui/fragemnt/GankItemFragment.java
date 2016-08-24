@@ -3,10 +3,11 @@ package com.otherhshe.niceread.ui.fragemnt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
@@ -15,6 +16,7 @@ import com.otherhshe.niceread.ui.activity.GankDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GankItemAdapterFooter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.ui.view.GankItemView;
 
 import java.util.ArrayList;
@@ -83,10 +85,12 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
         mGankItemAdapter = new GankItemAdapterFooter(mActivity, new ArrayList<GankItemData>());
         mGankItemAdapter.setOnItemClickListener(new OnItemClickListener<GankItemData>() {
             @Override
-            public void onCommonItemClick(View view, GankItemData gankItemData, int position) {
+            public void onCommonItemClick(ViewHolder viewHolder, GankItemData gankItemData, int position) {
                 Intent intent = new Intent(mActivity, GankDetailActivity.class);
                 intent.putExtra("gank_item_data", gankItemData);
-                startActivity(intent);
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity,
+                        viewHolder.getView(R.id.gank_item_icon), "shareView");
+                ActivityCompat.startActivity(mActivity, intent, optionsCompat.toBundle());
             }
 
             @Override

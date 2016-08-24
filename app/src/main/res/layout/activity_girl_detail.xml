@@ -27,4 +27,12 @@
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar" />
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/girl_detail_loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        app:indicatorColor="@color/colorAccent"
+        app:indicatorName="LineSpinFadeLoaderIndicator" />
+
 </RelativeLayout>

@@ -21,6 +21,7 @@ import com.otherhshe.niceread.ui.fragemnt.BaseFragment;
 import com.otherhshe.niceread.ui.fragemnt.TypeFragment;
 import com.otherhshe.niceread.utils.CommonUtil;
 import com.otherhshe.niceread.utils.ResourceUtil;
+import com.otherhshe.niceread.utils.ShareUtil;
 import com.otherhshe.niceread.utils.SnackBarUtil;
 
 import butterknife.BindView;
@@ -70,7 +71,8 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.menu_search:
+            case R.id.menu_share:
+                ShareUtil.share(mContext, ResourceUtil.resToStr(mContext, R.string.main_share_content));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -102,9 +104,6 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_girl:
                         doReplace(ResourceUtil.resToStr(mContext, R.string.girl));
-                        break;
-                    case R.id.nav_share:
-
                         break;
                     case R.id.nav_set:
                         openSet();
@@ -138,19 +137,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initStatusBar() {
-        ViewGroup contentLayout = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
-        View statusBarView = new View(mContext);
-        statusBarView.setBackgroundColor(ResourceUtil.resToColor(mContext, R.color.colorPrimary));
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.getStatusBarHeight(mContext));
-        contentLayout.addView(statusBarView, lp);
-
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            //将侧边栏顶部延伸至status bar
-//            mDrawerLayout.setFitsSystemWindows(true);
-//            //将主页面顶部延伸至status bar
-//            mDrawerLayout.setClipToPadding(false);
-//        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            //将侧边栏顶部延伸至status bar
+            mDrawerLayout.setFitsSystemWindows(true);
+            //将主页面顶部延伸至status bar
+            mDrawerLayout.setClipToPadding(false);
+        }
     }
 
     @Override
