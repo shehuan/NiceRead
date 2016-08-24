@@ -10,6 +10,9 @@
 * 网页数据抓取
 * PreferenceFragment
 
+预览：
+![](https://github.com/Othershe/NiceRead/1.gif)  ![](https://github.com/Othershe/NiceRead/2.gif)
+
 主要用到的第三方库：
 * retrof:it2.1.0
 * rxjava:1.1.6
