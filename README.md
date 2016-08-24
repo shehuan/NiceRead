@@ -8,6 +8,7 @@
 * MD控件
 * 状态栏着色
 * 网页数据抓取
+* PreferenceFragment
 
 主要用到的第三方库：
 * retrof:it2.1.0
