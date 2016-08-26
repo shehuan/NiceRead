@@ -17,8 +17,8 @@ import java.util.List;
  * Author: Othershe
  * Time: 2016/8/18 21:59
  */
-public class GirlItemAdapterFooter extends FooterRefreshAdapter<GirlItemData> {
-    public GirlItemAdapterFooter(Context context, List<GirlItemData> datas) {
+public class GirlItemAdapter extends FooterRefreshAdapter<GirlItemData> {
+    public GirlItemAdapter(Context context, List<GirlItemData> datas) {
         super(context, datas);
     }
 

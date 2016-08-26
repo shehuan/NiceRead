@@ -12,7 +12,7 @@ import com.otherhshe.niceread.data.GirlItemData;
 import com.otherhshe.niceread.presenter.GirlItemPresenter;
 import com.otherhshe.niceread.sevice.DataService;
 import com.otherhshe.niceread.ui.activity.GirlDetailActivity;
-import com.otherhshe.niceread.ui.adapter.GirlItemAdapterFooter;
+import com.otherhshe.niceread.ui.adapter.GirlItemAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
@@ -36,7 +36,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
     private String mSubtype;
     private int mTempPageCount = 2;
 
-    private GirlItemAdapterFooter mGirlItemAdapter;
+    private GirlItemAdapter mGirlItemAdapter;
 
     private boolean isLoadMore;//是否是底部加载更多
 
@@ -76,7 +76,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
             }
         });
 
-        mGirlItemAdapter = new GirlItemAdapterFooter(mActivity, new ArrayList<GirlItemData>());
+        mGirlItemAdapter = new GirlItemAdapter(mActivity, new ArrayList<GirlItemData>());
         mGirlItemAdapter.setOnItemClickListener(new OnItemClickListener<GirlItemData>() {
             @Override
             public void onCommonItemClick(ViewHolder viewHolder, GirlItemData girlItemData, int position) {

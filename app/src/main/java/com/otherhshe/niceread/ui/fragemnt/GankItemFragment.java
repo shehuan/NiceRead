@@ -13,7 +13,7 @@ import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
 import com.otherhshe.niceread.ui.activity.GankDetailActivity;
-import com.otherhshe.niceread.ui.adapter.GankItemAdapterFooter;
+import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
@@ -37,7 +37,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     private int mTempPageCount = 2;
     private int mLastVisibleItemPosition;
 
-    private GankItemAdapterFooter mGankItemAdapter;
+    private GankItemAdapter mGankItemAdapter;
 
     private boolean isLoadMore;
 
@@ -82,7 +82,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
             }
         });
 
-        mGankItemAdapter = new GankItemAdapterFooter(mActivity, new ArrayList<GankItemData>());
+        mGankItemAdapter = new GankItemAdapter(mActivity, new ArrayList<GankItemData>());
         mGankItemAdapter.setOnItemClickListener(new OnItemClickListener<GankItemData>() {
             @Override
             public void onCommonItemClick(ViewHolder viewHolder, GankItemData gankItemData, int position) {

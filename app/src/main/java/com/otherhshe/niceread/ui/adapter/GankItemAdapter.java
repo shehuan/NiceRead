@@ -15,8 +15,8 @@ import java.util.List;
  * Author: Othershe
  * Time: 2016/8/18 16:53
  */
-public class GankItemAdapterFooter extends FooterRefreshAdapter<GankItemData> {
-    public GankItemAdapterFooter(Context context, List<GankItemData> datas) {
+public class GankItemAdapter extends FooterRefreshAdapter<GankItemData> {
+    public GankItemAdapter(Context context, List<GankItemData> datas) {
         super(context, datas);
     }
 
