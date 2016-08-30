@@ -33,6 +33,10 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return new ViewHolder(itemView);
     }
 
+    public static ViewHolder create(View itemView) {
+        return new ViewHolder(itemView);
+    }
+
     /**
      * 通过id获得控件
      *

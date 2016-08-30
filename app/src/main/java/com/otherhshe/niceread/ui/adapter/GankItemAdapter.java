@@ -1,12 +1,11 @@
 package com.otherhshe.niceread.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GankItemData;
-import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.BaseAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 
 import java.util.List;
@@ -15,14 +14,15 @@ import java.util.List;
  * Author: Othershe
  * Time: 2016/8/18 16:53
  */
-public class GankItemAdapter extends FooterRefreshAdapter<GankItemData> {
-    public GankItemAdapter(Context context, List<GankItemData> datas) {
-        super(context, datas);
+public class GankItemAdapter extends BaseAdapter<GankItemData> {
+
+
+    public GankItemAdapter(Context context, List<GankItemData> datas, boolean isOpenLoadMore) {
+        super(context, datas, isOpenLoadMore);
     }
 
     @Override
-    protected void convert(RecyclerView.ViewHolder viewHolder, GankItemData gankItemData) {
-        ViewHolder holder = (ViewHolder) viewHolder;
+    protected void convert(ViewHolder holder, GankItemData gankItemData) {
         holder.setText(R.id.gank_item_desc, gankItemData.getDesc());
 
         String who = TextUtils.isEmpty(gankItemData.getWho()) ? "null" : gankItemData.getWho();

@@ -14,8 +14,8 @@ import com.otherhshe.niceread.data.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
 import com.otherhshe.niceread.ui.activity.GankDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
-import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
-import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListeners;
+import com.otherhshe.niceread.ui.adapter.baseadapter.OnLoadMoreListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.ui.view.GankItemView;
 
@@ -82,20 +82,27 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
             }
         });
 
-        mGankItemAdapter = new GankItemAdapter(mActivity, new ArrayList<GankItemData>());
-        mGankItemAdapter.setOnItemClickListener(new OnItemClickListener<GankItemData>() {
+        mGankItemAdapter = new GankItemAdapter(mActivity, new ArrayList<GankItemData>(), true);
+        mGankItemAdapter.setLoadingView(R.layout.load_loading_layout);
+        mGankItemAdapter.setOnItemClickListener(new OnItemClickListeners<GankItemData>() {
             @Override
-            public void onCommonItemClick(ViewHolder viewHolder, GankItemData gankItemData, int position) {
+            public void onItemClick(ViewHolder viewHolder, GankItemData gankItemData, int position) {
                 Intent intent = new Intent(mActivity, GankDetailActivity.class);
                 intent.putExtra("gank_item_data", gankItemData);
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity,
                         viewHolder.getView(R.id.gank_item_icon), "shareView");
                 ActivityCompat.startActivity(mActivity, intent, optionsCompat.toBundle());
             }
+        });
 
+        mGankItemAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadItemClick() {
-                mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
+            public void onLoadMore(boolean isReload) {
+                if (PAGE_COUNT == mTempPageCount && !isReload) {
+                    return;
+                }
+                isLoadMore = true;
+                PAGE_COUNT = mTempPageCount;
                 fetchData();
             }
         });
@@ -108,25 +115,6 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
 
         //RecyclerView滚动监听
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    mLastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                    //防止重复请求
-                    if (PAGE_COUNT == mTempPageCount) {
-                        return;
-                    }
-
-                    if (mLastVisibleItemPosition > 0 && mLastVisibleItemPosition + 1 == mGankItemAdapter.getItemCount()) {
-                        //已到达底部，开始加载更多
-                        isLoadMore = true;
-                        mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
-                        PAGE_COUNT = mTempPageCount;
-                        fetchData();
-                    }
-                }
-            }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -157,13 +145,13 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     public void onSuccess(List<GankItemData> data) {
         if (isLoadMore) {
             if (data.size() == 0) {
-                mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_FINISH);
+                mGankItemAdapter.setLoadEndView(R.layout.load_end_layout);
             } else {
-                mGankItemAdapter.notifyBottomRefresh(data);
+                mGankItemAdapter.setLoadMoreData(data);
                 mTempPageCount++;
             }
         } else {
-            mGankItemAdapter.notifyTopRefresh(data);
+            mGankItemAdapter.setNewData(data);
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -171,7 +159,7 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     @Override
     public void onError() {
         if (isLoadMore) {
-            mGankItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_ERROR);
+            mGankItemAdapter.setLoadFailedView(R.layout.load_failed_layout);
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
         }

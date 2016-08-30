@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.data.GirlItemData;
@@ -13,8 +12,8 @@ import com.otherhshe.niceread.presenter.GirlItemPresenter;
 import com.otherhshe.niceread.sevice.DataService;
 import com.otherhshe.niceread.ui.activity.GirlDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GirlItemAdapter;
-import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListener;
-import com.otherhshe.niceread.ui.adapter.baseadapter.FooterRefreshAdapter;
+import com.otherhshe.niceread.ui.adapter.baseadapter.OnItemClickListeners;
+import com.otherhshe.niceread.ui.adapter.baseadapter.OnLoadMoreListener;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.ui.view.GirlItemView;
 
@@ -54,7 +53,6 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
     @Override
     protected void fetchData() {
         mPresenter.getGirlItemData(mSubtype, PAGE_COUNT);
-        Log.e("GirlItemFragment", mSubtype + "-------" + PAGE_COUNT);
     }
 
     @Override
@@ -76,18 +74,25 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
             }
         });
 
-        mGirlItemAdapter = new GirlItemAdapter(mActivity, new ArrayList<GirlItemData>());
-        mGirlItemAdapter.setOnItemClickListener(new OnItemClickListener<GirlItemData>() {
+        mGirlItemAdapter = new GirlItemAdapter(mActivity, new ArrayList<GirlItemData>(), true);
+        mGirlItemAdapter.setLoadingView(R.layout.load_loading_layout);
+        mGirlItemAdapter.setOnItemClickListener(new OnItemClickListeners<GirlItemData>() {
             @Override
-            public void onCommonItemClick(ViewHolder viewHolder, GirlItemData girlItemData, int position) {
+            public void onItemClick(ViewHolder viewHolder, GirlItemData girlItemData, int position) {
                 Intent intent = new Intent(mActivity, GirlDetailActivity.class);
                 intent.putExtra("girl_item_data", girlItemData);
                 startActivity(intent);
             }
+        });
 
+        mGirlItemAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadItemClick() {
-                mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
+            public void onLoadMore(boolean isReload) {
+                if (PAGE_COUNT == mTempPageCount && !isReload) {
+                    return;
+                }
+                isLoadMore = true;
+                PAGE_COUNT = mTempPageCount;
                 fetchData();
             }
         });
@@ -97,37 +102,6 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setAdapter(mGirlItemAdapter);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                int[] lastVisiblePositions = layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]);
-                //防止重复请求
-                if (PAGE_COUNT == mTempPageCount) {
-                    return;
-                }
-
-                if (findMax(lastVisiblePositions) + 1 == mGirlItemAdapter.getItemCount() && mGirlItemAdapter.getItemCount() > 1) {
-                    //已到达底部，开始加载更多
-                    isLoadMore = true;
-                    mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_START);
-                    PAGE_COUNT = mTempPageCount;
-                    fetchData();
-                }
-            }
-        });
-    }
-
-    private int findMax(int[] lastVisiblePositions) {
-        int max = lastVisiblePositions[0];
-        for (int value : lastVisiblePositions) {
-            if (value > max) {
-                max = value;
-            }
-        }
-        return max;
     }
 
     @Override
@@ -146,7 +120,7 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
     @Override
     public void onError() {
         if (isLoadMore) {
-            mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_ERROR);
+            mGirlItemAdapter.setLoadFailedView(R.layout.load_failed_layout);
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
         }
@@ -175,13 +149,13 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
 
         if (isLoadMore) {
             if (data.size() == 0) {
-                mGirlItemAdapter.updateRefreshState(FooterRefreshAdapter.STATE_FINISH);
+                mGirlItemAdapter.setLoadEndView(R.layout.load_end_layout);
             } else {
                 mTempPageCount++;
-                mGirlItemAdapter.notifyBottomRefresh(data);
+                mGirlItemAdapter.setLoadMoreData(data);
             }
         } else {
-            mGirlItemAdapter.notifyTopRefresh(data);
+            mGirlItemAdapter.setNewData(data);
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
