@@ -30,6 +30,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     protected Context mContext;
     protected List<T> mDatas;
     private boolean mOpenLoadMore;
+    private boolean isAutoLoadMore = true;
 
     private View mLoadingView;
     private View mLoadFailedView;
@@ -187,17 +188,19 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (layoutManager instanceof LinearLayoutManager) {
-                        int lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                        if (lastVisibleItemPosition > 0 && lastVisibleItemPosition + 1 == getItemCount()) {
-                            scrollLoadMore();
-                        }
-                    } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                        int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null);
-                        if (getItemCount() > 1 && findMax(lastVisibleItemPositions) + 1 == getItemCount()) {
-                            scrollLoadMore();
-                        }
+                    if (!isAutoLoadMore && findLastVisibleItemPosition(layoutManager) + 1 == getItemCount()) {
+                        scrollLoadMore();
                     }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isAutoLoadMore && findLastVisibleItemPosition(layoutManager) + 1 == getItemCount()) {
+                    scrollLoadMore();
+                } else if (isAutoLoadMore) {
+                    isAutoLoadMore = false;
                 }
             }
         });
@@ -210,6 +213,16 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         if (mFooterLayout.getChildAt(0) == mLoadingView) {
             mLoadMoreListener.onLoadMore(false);
         }
+    }
+
+    private int findLastVisibleItemPosition(RecyclerView.LayoutManager layoutManager) {
+        if (layoutManager instanceof LinearLayoutManager) {
+            return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null);
+            return findMax(lastVisibleItemPositions);
+        }
+        return -1;
     }
 
     private int findMax(int[] lastVisiblePositions) {
