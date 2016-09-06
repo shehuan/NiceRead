@@ -7,8 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
-
-import java.util.concurrent.ExecutionException;
+import com.otherhshe.niceread.ui.weiget.CircleTransform;
 
 /**
  * Author: Othershe
@@ -32,6 +31,7 @@ public class ImageLoader {
 
     /**
      * 需要在子线程执行
+     *
      * @param context
      * @param url
      * @return
@@ -48,5 +48,13 @@ public class ImageLoader {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void loadCircle(Context context, int resId, ImageView iv) {
+        Glide.with(context)
+                .load(resId)
+                .crossFade()
+                .transform(new CircleTransform(context))
+                .into(iv);
     }
 }

@@ -11,18 +11,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.ui.fragemnt.BaseFragment;
 import com.otherhshe.niceread.ui.fragemnt.TypeFragment;
-import com.otherhshe.niceread.utils.CommonUtil;
+import com.otherhshe.niceread.utils.ImageLoader;
 import com.otherhshe.niceread.utils.ResourceUtil;
 import com.otherhshe.niceread.utils.ShareUtil;
 import com.otherhshe.niceread.utils.SnackBarUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -33,6 +34,7 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity {
     private String mCurrentType;
     private boolean isBackPressed;
+    private Map<String, BaseFragment> mTypeFragments;
 
     @BindView(R.id.main_nav_view)
     NavigationView mNavView;
@@ -58,7 +60,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        mTypeFragments = new HashMap<>();
     }
 
     @Override
@@ -90,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
     private void initNavigationView() {
         ImageView icon = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.nav_head_icon);
-        icon.setImageResource(R.mipmap.ic_launcher);
+        ImageLoader.loadCircle(mContext, R.drawable.icon, icon);
         TextView name = (TextView) mNavView.getHeaderView(0).findViewById(R.id.nav_head_name);
         name.setText(R.string.app_name);
         mNavView.setCheckedItem(R.id.nav_gank);//设置默认选中
@@ -120,15 +122,26 @@ public class MainActivity extends BaseActivity {
 
     private void doReplace(String type) {
         if (!type.equals(mCurrentType)) {
+            replaceFragment(TypeFragment.newInstance(type), type, mCurrentType);
             mCurrentType = type;
-            replaceFragment(TypeFragment.newInstance(type), type);
         }
     }
 
-    private void replaceFragment(BaseFragment fragment, String tag) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment_container, fragment, tag);
-        transaction.commit();
+    private void replaceFragment(BaseFragment fragment, String tag, String lastTag) {
+        if (mTypeFragments.get(tag) == null) {
+            mTypeFragments.put(tag, fragment);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_fragment_container, fragment, tag)
+                    .commit();
+        }
+
+        if (mTypeFragments.get(lastTag) != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.hide(mTypeFragments.get(lastTag))
+                    .show(mTypeFragments.get(tag))
+                    .commit();
+        }
     }
 
     private void openSet() {
