@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Author: Othershe
  * Time: 2016/8/12 14:34
  */
-public class GankItemData implements Parcelable{
+public class GankItemData implements Parcelable {
 
     /**
      * _id : 57aca861421aa949ef961f48
@@ -24,6 +24,7 @@ public class GankItemData implements Parcelable{
     private String _id;
     private String createdAt;
     private String desc;
+    private String[] images;
     private String publishedAt;
     private String source;
     private String type;
@@ -53,6 +54,14 @@ public class GankItemData implements Parcelable{
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String[] getImages() {
+        return images;
+    }
+
+    public void setImages(String[] images) {
+        this.images = images;
     }
 
     public String getPublishedAt() {
@@ -113,6 +122,7 @@ public class GankItemData implements Parcelable{
         dest.writeString(this._id);
         dest.writeString(this.createdAt);
         dest.writeString(this.desc);
+        dest.writeStringArray(this.images);
         dest.writeString(this.publishedAt);
         dest.writeString(this.source);
         dest.writeString(this.type);
@@ -128,6 +138,7 @@ public class GankItemData implements Parcelable{
         this._id = in.readString();
         this.createdAt = in.readString();
         this.desc = in.readString();
+        this.images = in.createStringArray();
         this.publishedAt = in.readString();
         this.source = in.readString();
         this.type = in.readString();
