@@ -33,27 +33,6 @@ public class GankItemAdapter extends BaseAdapter<GankItemData> {
 
         holder.setText(R.id.gank_item_publishedat, gankItemData.getPublishedAt().substring(0, 10));
 
-//        String url = gankItemData.getUrl();
-//        int iconId;
-//        if (url.contains("github")) {
-//            iconId = R.drawable.github;
-//        } else if (url.contains("jianshu")) {
-//            iconId = R.drawable.jianshu;
-//        } else if (url.contains("csdn")) {
-//            iconId = R.drawable.csdn;
-//        } else if (url.contains("miaopai")) {
-//            iconId = R.drawable.miaopai;
-//        } else if (url.contains("acfun")) {
-//            iconId = R.drawable.acfun;
-//        } else if (url.contains("bilibili")) {
-//            iconId = R.drawable.bilibili;
-//        } else if (url.contains("youku")) {
-//            iconId = R.drawable.youku;
-//        } else if (url.contains("weibo")) {
-//            iconId = R.drawable.weibo;
-//        } else if (url.contains("weixin")) {
-//            iconId = R.drawable.weixin;
-//        }
         ImageView image = holder.getView(R.id.gank_item_icon);
 
         String[] images = gankItemData.getImages();
@@ -61,7 +40,30 @@ public class GankItemAdapter extends BaseAdapter<GankItemData> {
             ImageLoader.load(NiceReadApplication.getContext(),
                     images[0] + "?imageView2/0/w/100", image, R.drawable.web);
         } else {
-            ImageLoader.load(NiceReadApplication.getContext(), R.drawable.web, image);
+            String url = gankItemData.getUrl();
+            int iconId;
+            if (url.contains("github")) {
+                iconId = R.drawable.github;
+            } else if (url.contains("jianshu")) {
+                iconId = R.drawable.jianshu;
+            } else if (url.contains("csdn")) {
+                iconId = R.drawable.csdn;
+            } else if (url.contains("miaopai")) {
+                iconId = R.drawable.miaopai;
+            } else if (url.contains("acfun")) {
+                iconId = R.drawable.acfun;
+            } else if (url.contains("bilibili")) {
+                iconId = R.drawable.bilibili;
+            } else if (url.contains("youku")) {
+                iconId = R.drawable.youku;
+            } else if (url.contains("weibo")) {
+                iconId = R.drawable.weibo;
+            } else if (url.contains("weixin")) {
+                iconId = R.drawable.weixin;
+            } else {
+                iconId = R.drawable.web;
+            }
+            ImageLoader.load(NiceReadApplication.getContext(), iconId, image);
         }
     }
 
