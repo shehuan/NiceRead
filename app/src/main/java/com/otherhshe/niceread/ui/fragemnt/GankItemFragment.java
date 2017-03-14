@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GankItemData;
+import com.otherhshe.niceread.model.GankItemData;
 import com.otherhshe.niceread.presenter.GankItemPresenter;
 import com.otherhshe.niceread.ui.activity.GankDetailActivity;
 import com.otherhshe.niceread.ui.adapter.GankItemAdapter;
@@ -29,7 +29,7 @@ import butterknife.OnClick;
  * Author: Othershe
  * Time: 2016/8/12 14:28
  */
-public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPresenter> implements GankItemView, SwipeRefreshLayout.OnRefreshListener {
+public class GankItemFragment extends BaseMvpFragment implements GankItemView, SwipeRefreshLayout.OnRefreshListener {
 
     private int PAGE_COUNT = 1;
 
@@ -56,13 +56,10 @@ public class GankItemFragment extends BaseMvpFragment<GankItemView, GankItemPres
     }
 
     @Override
-    protected GankItemPresenter initPresenter() {
-        return new GankItemPresenter();
-    }
-
-    @Override
     protected void fetchData() {
-        mPresenter.getGankItemData("data/" + mSubtype + "/10/" + PAGE_COUNT);
+        GankItemPresenter presenter = new GankItemPresenter(this);
+        presenter.getGankItemData("data/" + mSubtype + "/10/" + PAGE_COUNT);
+        addPresenter(presenter);
     }
 
     @Override

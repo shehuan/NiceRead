@@ -1,4 +1,4 @@
-package com.otherhshe.niceread.data;
+package com.otherhshe.niceread.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

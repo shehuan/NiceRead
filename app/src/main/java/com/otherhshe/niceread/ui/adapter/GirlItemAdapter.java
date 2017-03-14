@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.otherhshe.niceread.NiceReadApplication;
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GirlItemData;
+import com.otherhshe.niceread.model.GirlItemData;
 import com.otherhshe.niceread.ui.adapter.baseadapter.BaseAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.ui.weiget.ScaleImageView;

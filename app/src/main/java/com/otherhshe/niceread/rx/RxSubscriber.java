@@ -31,10 +31,11 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         //统一处理请求异常的情况
         if (e instanceof IOException) {
-            Toast.makeText(mContext, "网络链接异常...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "网络链接异常", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
         _onError();
 
         cancelLoading();

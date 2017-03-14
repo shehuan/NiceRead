@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.otherhshe.niceread.NiceReadApplication;
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GankItemData;
+import com.otherhshe.niceread.model.GankItemData;
 import com.otherhshe.niceread.ui.adapter.baseadapter.BaseAdapter;
 import com.otherhshe.niceread.ui.adapter.baseadapter.ViewHolder;
 import com.otherhshe.niceread.utils.ImageLoader;

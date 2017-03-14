@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GankItemData;
+import com.otherhshe.niceread.model.GankItemData;
 import com.otherhshe.niceread.utils.CopyUtil;
 import com.otherhshe.niceread.utils.ShareUtil;
 import com.otherhshe.niceread.utils.SnackBarUtil;

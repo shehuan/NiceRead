@@ -5,29 +5,35 @@ import android.support.annotation.Nullable;
 
 import com.otherhshe.niceread.presenter.BasePresenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author: Othershe
  * Time:  2016/8/11 11:14
  */
-public abstract class BaseMvpActivity<V, P extends BasePresenter<V>> extends BaseActivity {
-    protected P mPresenter;
+public abstract class BaseMvpActivity extends BaseActivity {
 
-    protected abstract P initPresenter();
+    protected List<BasePresenter> mPresenters = new ArrayList<>();
 
     protected abstract void fetchData();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = initPresenter();
-        mPresenter.attach((V) this);
 
         fetchData();
     }
 
+    protected void addPresenter(BasePresenter presenter) {
+        mPresenters.add(presenter);
+    }
+
     @Override
     protected void onDestroy() {
-        mPresenter.detach();
+        for (BasePresenter p : mPresenters) {
+            p.detach();
+        }
         super.onDestroy();
     }
 }

@@ -1,6 +1,6 @@
 package com.otherhshe.niceread.ui.view;
 
-import com.otherhshe.niceread.data.SplashData;
+import com.otherhshe.niceread.model.SplashData;
 
 /**
  * Author: Othershe

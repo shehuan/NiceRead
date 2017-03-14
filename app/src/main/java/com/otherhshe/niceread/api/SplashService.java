@@ -1,7 +1,7 @@
 package com.otherhshe.niceread.api;
 
 import com.otherhshe.niceread.constant.Api;
-import com.otherhshe.niceread.data.SplashData;
+import com.otherhshe.niceread.model.SplashData;
 
 import retrofit2.http.GET;
 import rx.Observable;

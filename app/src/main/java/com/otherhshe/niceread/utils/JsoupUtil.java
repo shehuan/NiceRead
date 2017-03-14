@@ -1,6 +1,6 @@
 package com.otherhshe.niceread.utils;
 
-import com.otherhshe.niceread.data.GirlItemData;
+import com.otherhshe.niceread.model.GirlItemData;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GirlItemData;
+import com.otherhshe.niceread.model.GirlItemData;
 import com.otherhshe.niceread.presenter.GirlItemPresenter;
 import com.otherhshe.niceread.sevice.DataService;
 import com.otherhshe.niceread.ui.activity.GirlDetailActivity;
@@ -30,7 +30,7 @@ import butterknife.BindView;
  * Author: Othershe
  * Time: 2016/8/17 10:57
  */
-public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPresenter> implements GirlItemView, SwipeRefreshLayout.OnRefreshListener {
+public class GirlItemFragment extends BaseMvpFragment implements GirlItemView, SwipeRefreshLayout.OnRefreshListener {
     private int PAGE_COUNT = 1;
     private String mSubtype;
     private int mTempPageCount = 2;
@@ -46,13 +46,10 @@ public class GirlItemFragment extends BaseMvpFragment<GirlItemView, GirlItemPres
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
-    protected GirlItemPresenter initPresenter() {
-        return new GirlItemPresenter();
-    }
-
-    @Override
     protected void fetchData() {
-        mPresenter.getGirlItemData(mSubtype, PAGE_COUNT);
+        GirlItemPresenter presenter = new GirlItemPresenter(this);
+        presenter.getGirlItemData(mSubtype, PAGE_COUNT);
+        addPresenter(presenter);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.otherhshe.niceread.ui.view;
 
-import com.otherhshe.niceread.data.GirlItemData;
+import com.otherhshe.niceread.model.GirlItemData;
 
 import java.util.List;
 

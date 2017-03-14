@@ -7,7 +7,6 @@ import com.otherhshe.niceread.R;
 import com.otherhshe.niceread.utils.ImageLoader;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 

@@ -4,16 +4,17 @@ import android.os.Bundle;
 
 import com.otherhshe.niceread.presenter.BasePresenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author: Othershe
  * Time: 2016/8/12 12:19
  */
-public abstract class BaseMvpFragment<V, P extends BasePresenter<V>> extends BaseFragment {
+public abstract class BaseMvpFragment extends BaseFragment {
     protected static final String SUB_TYPE = "subtype";
 
-    protected P mPresenter;
-
-    protected abstract P initPresenter();
+    protected List<BasePresenter> mPresenters = new ArrayList<>();
 
     protected abstract void fetchData();
 
@@ -31,8 +32,6 @@ public abstract class BaseMvpFragment<V, P extends BasePresenter<V>> extends Bas
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter = initPresenter();
-        mPresenter.attach((V) this);
 
         mIsViewInitiated = true;
         initFetchData();
@@ -45,9 +44,15 @@ public abstract class BaseMvpFragment<V, P extends BasePresenter<V>> extends Bas
         }
     }
 
+    protected void addPresenter(BasePresenter presenter) {
+        mPresenters.add(presenter);
+    }
+
     @Override
     public void onDestroy() {
-        mPresenter.detach();
+        for (BasePresenter p : mPresenters) {
+            p.detach();
+        }
         super.onDestroy();
     }
 }

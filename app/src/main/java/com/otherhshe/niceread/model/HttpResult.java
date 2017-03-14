@@ -1,4 +1,4 @@
-package com.otherhshe.niceread.data;
+package com.otherhshe.niceread.model;
 
 /**
  * Author: Othershe

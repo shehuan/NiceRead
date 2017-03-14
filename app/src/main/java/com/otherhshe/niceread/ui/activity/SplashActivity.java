@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.SplashData;
+import com.otherhshe.niceread.model.SplashData;
 import com.otherhshe.niceread.presenter.SplashPresenter;
 import com.otherhshe.niceread.ui.fragemnt.SetFragment;
 import com.otherhshe.niceread.ui.view.SplashView;
@@ -20,21 +20,18 @@ import butterknife.BindView;
  * Author: Othershe
  * Time:  2016/8/11 11:22
  */
-public class SplashActivity extends BaseMvpActivity<SplashView, SplashPresenter> implements SplashView {
+public class SplashActivity extends BaseMvpActivity implements SplashView {
     private String mTimeLine;
 
     @BindView(R.id.splash_iv)
     ImageView mSplashIv;
 
     @Override
-    protected SplashPresenter initPresenter() {
-        return new SplashPresenter();
-    }
-
-    @Override
     protected void fetchData() {
         if (!DateUtil.formatDate().equals(mTimeLine)) {
-            mPresenter.getSplashPic();
+            SplashPresenter presenter = new SplashPresenter(this);
+            presenter.getSplashPic();
+            addPresenter(presenter);
         }
     }
 

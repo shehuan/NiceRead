@@ -1,6 +1,6 @@
 package com.otherhshe.niceread.ui.view;
 
-import com.otherhshe.niceread.data.GankItemData;
+import com.otherhshe.niceread.model.GankItemData;
 
 import java.util.List;
 

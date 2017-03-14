@@ -5,7 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.otherhshe.niceread.R;
-import com.otherhshe.niceread.data.GirlItemData;
+import com.otherhshe.niceread.model.GirlItemData;
 import com.otherhshe.niceread.presenter.GirlDetailPresenter;
 import com.otherhshe.niceread.ui.adapter.GirlDetailAdapter;
 import com.otherhshe.niceread.ui.fragemnt.BaseFragment;
@@ -22,7 +22,7 @@ import butterknife.BindView;
  * Author: Othershe
  * Time: 2016/8/17 16:50
  */
-public class GirlDetailActivity extends BaseMvpActivity<GirlDetailView, GirlDetailPresenter> implements GirlDetailView {
+public class GirlDetailActivity extends BaseMvpActivity implements GirlDetailView {
     private GirlItemData mGirlItemData;
 
     @BindView(R.id.girl_detail_viewpager)
@@ -35,13 +35,11 @@ public class GirlDetailActivity extends BaseMvpActivity<GirlDetailView, GirlDeta
     AVLoadingIndicatorView mLoading;
 
     @Override
-    protected GirlDetailPresenter initPresenter() {
-        return new GirlDetailPresenter();
-    }
-
-    @Override
     protected void fetchData() {
-        mPresenter.getGirlDetailData(mGirlItemData.getId());
+        GirlDetailPresenter presenter = new GirlDetailPresenter(this);
+        presenter.getGirlDetailData(mGirlItemData.getId());
+
+        addPresenter(presenter);
     }
 
     @Override

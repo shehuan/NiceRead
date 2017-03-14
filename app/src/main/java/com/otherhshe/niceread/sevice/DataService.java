@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Parcelable;
 
-import com.otherhshe.niceread.data.GirlItemData;
-import com.otherhshe.niceread.utils.DBUtil;
+import com.otherhshe.niceread.model.GirlItemData;
 import com.otherhshe.niceread.utils.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;

@@ -1,6 +1,6 @@
 package com.otherhshe.niceread.rx;
 
-import com.otherhshe.niceread.data.HttpResult;
+import com.otherhshe.niceread.model.HttpResult;
 import com.otherhshe.niceread.net.ApiException;
 
 import rx.Observable;
