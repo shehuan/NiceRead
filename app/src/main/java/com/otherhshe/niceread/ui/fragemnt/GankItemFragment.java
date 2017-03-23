@@ -174,6 +174,7 @@ public class GankItemFragment extends BaseMvpFragment implements GankItemView, S
     public void onRefresh() {
         isLoadMore = false;
         PAGE_COUNT = 1;
+        mTempPageCount = 2;
         fetchData();
     }
 }

@@ -135,6 +135,7 @@ public class GirlItemFragment extends BaseMvpFragment implements GirlItemView, S
     public void onRefresh() {
         isLoadMore = false;
         PAGE_COUNT = 1;
+        mTempPageCount = 2;
         fetchData();
     }
 
