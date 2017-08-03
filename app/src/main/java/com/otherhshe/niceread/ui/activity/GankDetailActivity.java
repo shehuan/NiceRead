@@ -62,7 +62,8 @@ public class GankDetailActivity extends BaseActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setLoadsImagesAutomatically(true);
-        settings.setBlockNetworkImage(true);
+        settings.setBlockNetworkImage(false);
+        settings.setDomStorageEnabled(true);
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
