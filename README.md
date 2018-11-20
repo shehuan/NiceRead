@@ -1,5 +1,7 @@
 # NiceRead
 
+## [你可能需要的 Kotlin版玩Android App](https://github.com/SheHuan/WanAndroid)
+
 [点我下载apk](http://fir.im/jr8h)
 
 一个练习项目，目前主要涉及的知识点如下：
