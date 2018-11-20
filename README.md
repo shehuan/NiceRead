@@ -1,6 +1,7 @@
 # NiceRead
 
 ## [你可能需要的 Kotlin版玩Android App](https://github.com/SheHuan/WanAndroid)
+## [你可能需要的 Java版MVP基础框架](https://github.com/SheHuan/EasyMvp)
 
 [点我下载apk](http://fir.im/jr8h)
 
